@@ -10,7 +10,19 @@ Overall Steps:
 * Download Avi's Controller from Avi Portal
 * Run the playbook
  
+== Installing docker
+----
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker
+----
 
+== Start Docker
+----
+sudo systemctl enable --now docker
+----
+
+== Get the run script 
 ----
 curl -O https://raw.githubusercontent.com/avinetworks/avitools/master/run.sh
 ----
