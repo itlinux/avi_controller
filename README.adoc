@@ -22,16 +22,18 @@ sudo yum install docker
 sudo systemctl enable --now docker
 ----
 
-== Get the run script 
+== Get the run script
 ----
 curl -O https://raw.githubusercontent.com/avinetworks/avitools/master/run.sh
 ----
 
 Run the script
 
-From a Linux Box this maps workspace into /opt/docker
+We will create the docker folder.
+From a Linux Box /opt/docker will be mapped to /opt/avi therefore when you docker exec it takes you right inside the folder.
 
 ----
+mkdir /opt/docker
 chmod +x run.sh
 ./run.sh -v 18.2.7 -c bash -d /opt/docker -b
 docker exec -it avitools bash
