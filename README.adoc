@@ -1,11 +1,15 @@
 = For deployment of the Avi Controller using Avi's SDK
 
-Steps:
+Overall Steps:
 
 * Install docker with yum install
-* Download Avi's Controller from Avi Portal.
-* Download the SDK from Avi's Docker Hub.
+* Download the SDK from Avi's Docker Hub
 * Download the run.sh file
+* Git clone
+* Setup variables
+* Download Avi's Controller from Avi Portal
+* Run the playbook
+ 
 
 ----
 curl -O https://raw.githubusercontent.com/avinetworks/avitools/master/run.sh
