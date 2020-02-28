@@ -61,6 +61,10 @@ Once that is completed you need to adjust the variables for your env.
 vi datacenter1/group_vars/all/vars
 ----
 
+== Software
+You need to download the controller ova from Avi Networks and place it into the software folder. 
+Make sure the variable has the same name before you run the playbook.
+
 == Run the playbook
 
 
