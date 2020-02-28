@@ -23,6 +23,13 @@ docker exec -it avitools bash
 
 NOTE: In CentOS, or RHEL if you have SELinux enabled you may need to set it to permissions mode or track down the /var/log/audit/audit.log id to exclude it from creating issue within the container.
 
+== Git down the playbook
+Once installed and have the sdk container from Avi running you will need to pull down this repo.
+
+----
+git clone https://github.com/itlinux/avi_controller.git
+----
+
 == Setup your environment
 
 Steps: +
@@ -62,7 +69,7 @@ vi datacenter1/group_vars/all/vars
 ----
 
 == Software
-You need to download the controller ova from Avi Networks and place it into the software folder. 
+You need to download the controller ova from Avi Networks and place it into the software folder.
 Make sure the variable has the same name before you run the playbook.
 
 == Run the playbook
