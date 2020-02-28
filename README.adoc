@@ -51,6 +51,10 @@ avi_password: 'Password2'
 oldpassword: 'this password is on avi portal'
 ----
 
+NOTE: The oldpassword is the default password set on the Avi Controller. +
+You need to get it from the Avi Portal
+
+
 Once that is completed you need to adjust the variables for your env.
 
 ----
@@ -106,4 +110,4 @@ Once completed you will see something like this:
     root@avitools:/opt/avi/ansi-controller-deployment#
 ----
 
-NOTE: This is an output of a controller that I just deployed using the script.  Depending on your network and VMware / vSphere for the speed. I have seen it from  few minutes up to 15 minutes. 
+NOTE: This is an output of a controller that I just deployed using the script.  Depending on your network and VMware / vSphere for the speed. I have seen it from  few minutes up to 15 minutes.
