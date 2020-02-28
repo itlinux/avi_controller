@@ -22,16 +22,17 @@
         con_ova_path: '{{ ova_path }}'
         con_power_on: '{{ power_on }}'
         con_vcenter_folder: '{{ vcenter_folder }}'
+        #con_vcenter_parent_folder: '{{ vcenter_parent_folder }}'
         con_disk_size: '{{ disk_size | default(omit) }}'
         con_vm_name: '{{ item.name }}'
         con_mgmt_ip: '{{ item.mgmt_ip }}'
         con_mgmt_mask: '{{ item.mgmt_mask}}'
         con_default_gw: '{{ item.default_gw }}'
-      no_log: true
+      no_log: false
       with_items:
         - "{{ controller1 }}"
-      #  - "{{ controller2 }}"
-      # - "{{ controller3 }}"
+        - "{{ controller2 }}"
+        - "{{ controller3 }}"
       tags:
         - avicontrollers
     - name: Wait for Controller be ready
