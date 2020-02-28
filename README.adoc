@@ -63,7 +63,6 @@ vi datacenter1/group_vars/all/vars
 
 == Run the playbook
 
-cd  into the folder where the *deploy.yml* is
 
 ----
 ansible-playbook -i inventory/datacenter1/hosts deploy.yml --ask-vault-pass
