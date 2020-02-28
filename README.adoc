@@ -50,9 +50,9 @@ git clone https://github.com/itlinux/avi_controller.git
 
 Steps: +
 
----
+----
 # cd avi_controller/inventory/
----
+----
 
 ----
 # cp -R home datacenter1
@@ -61,8 +61,10 @@ Steps: +
 ----
 # rm datacenter1/group_vars/all/vault.yml
 ----
+
+Create vault file
 ----
-# create a new ansible-vault file
+# ansible-vault create vault.yml
 ----
 
 ----
