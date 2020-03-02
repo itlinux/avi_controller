@@ -52,29 +52,27 @@ git clone https://github.com/itlinux/avi_controller.git
 
 Steps: +
 
+
 ----
 # cd avi_controller/inventory/
 ----
 
+Copy the home dir as your base template, you can use any names you want. Example datacenter1 or DC1 etc.
 ----
 # cp -R home datacenter1
 ----
 
+Remove the vault.yml file since you will create a new one with your password.
 ----
 # rm datacenter1/group_vars/all/vault.yml
 ----
 
-Create vault file
+Create vault file in the <yournewenv>/group_vars/all with the following command.
 ----
 # ansible-vault create vault.yml
 ----
 
-----
-cd datacenter1/group_vars/all
-ansible-vault create vault.yml
-----
-
-Once you enter your password you need to add the following variables:
+Once you enter your password you need to add the following variables: (those are used in the playbook).
 
 ----
 vmware_pass: 'Password1'
@@ -99,8 +97,9 @@ Make sure the variable has the same name before you run the playbook.
 == Run the playbook
 
 
+You can run one playbook using the following:
 ----
-ansible-playbook -i inventory/datacenter1/hosts deploy.yml --ask-vault-pass
+ansible-playbook -i inventory/datacenter1/hosts main.yml --ask-vault-pass
 ----
 
 Once completed you will see something like this:
@@ -144,4 +143,33 @@ Once completed you will see something like this:
     root@avitools:/opt/avi/ansi-controller-deployment#
 ----
 
-NOTE: This is an output of a controller that I just deployed using the script.  Depending on your network and VMware / vSphere for the speed. I have seen it from  few minutes up to 15 minutes.
+NOTE: This is an output of a controller that I just deployed using the script.  Depending on your network and VMware / vSphere for the speed. I have seen it from  few minutes up to 30 minutes, depending if you deploy 3 controllers or single controller. 
+By default it's set to deploy all 3 controllers, keep that in mind. If you do want to deploy one one controller to test it you need to comment out the vars file under your inventory env. 
+If you do not run all 3 controllers the steps will change a bit, since the step 2 will wait for the controllers to be up. You can do the steps manually and use the skip-tags option to not include the 2nd and 3rd controller. 
+
+example: 
+----
+ansible-playbook -i inventory/datacenter1/hosts 2_config_controllers.yml --skip-tags second_ctl --skip-tags thrid_ctl --ask-vault-pass
+----
+
+
+
+
+== Create a Virtual Service and Backend Pool
+NOTE: Your Backend needs to be set. I only configured this with one backend. This is just a demo!
+
+
+Edit the section in the vars called POOL
+----
+# POOL INFO
+POOL_IP: 192.168.100.235
+VS_IP2: 192.168.101.98
+VS_IP: 192.168.101.97
+VS_SE_Group: Default-Group
+app_name: app1
+name_pool: test-pool
+state_set: present
+enabled: true
+----
+
+I set the VS_IP2 as the VS VIP for now

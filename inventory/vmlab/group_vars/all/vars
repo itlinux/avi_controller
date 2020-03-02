@@ -6,30 +6,29 @@ ovftool_path: /usr/lib/vmware-ovftool
 ova_path: './software/controller-18.2.8-9098.ova'
 
 # Datacenter to use
-datacenter: 'Remo'
-
+datacenter: 'wdc-06-vc12'
 
 # Datastore for each controller is needed it can be enabled.
 # This needs also be enabled in the playbook.
-datacenter_datastore: 'datastore1'
-datacenter_datastore_1: ''
-datacenter_datastore_2: ''
+datacenter_datastore: 'wdc-06-vc12c01-vsan'
+datacenter_datastore_1: 'wdc-06-vc12c01-vsan'
+datacenter_datastore_2: 'wdc-06-vc12c01-vsan'
 
 
 # Backup Password
 backup_passphrase: remo
 
 # Cluster Name
-cluster: 'MyCluster'
+cluster: 'wdc-06-vc12c01'
 
 # Network for the Avi Mgmt
-mgmt_network: 'VM Network'
+mgmt_network: 'vxw-dvs-34-virtualwire-3-sid-6120002-wdc-06-vc12-avi-mgmt'
 
 # Turn on the VM after the push
 power_on: true
 
 # Folder where to push the Avi Controller
-vcenter_folder: 'Avi'
+vcenter_folder: 'Remo'
 # we do not honor the parent_folder yet!
 vcenter_parent_folder: 'Remo'
 
@@ -42,7 +41,7 @@ number_of_cpus: 8
 memory: 25000
 
 # Which  inventory variable do I use
-mycloud: home
+mycloud: vmlab
 
 # Old password of Avi Controller this is in the Avi Portal
 old_password: '{{ oldpassword }}'
@@ -71,29 +70,28 @@ motd_welcome:
 
 
 # DNS servers to use for the Avi Controller
-dns_server01: 1.1.1.1
-dns_server02: 8.8.8.8
+dns_server01: 10.206.8.130
+dns_server02: 10.206.8.131
 
 # NTP servers for the Avi Controller
-ntp_server01: time.apple.com
-ntp_server02: ntp-d.nist.gov
+ntp_server01: 10.170.16.48
+ntp_server02: 10.142.7.21
 ntp_server03: 10.132.7.1
-
 
 
 # vsphere information to setup the cloud connector. 
 vcenter:
-  vcenter_url: 192.168.100.15
-  username: 'administrator@remo.local'
+  vcenter_url: wdc-06-vc12.oc.vmware.com
+  username: 'aviuser6'
   password: '{{ vmware_pass }}'
   datacenter: '{{ datacenter }}'
   network_mgmt: '{{ mgmt_network }}'
-  network_subnet: 192.168.100.0
-  network_subnet_mask: 23
+  network_subnet: 10.206.112.0
+  network_subnet_mask: 22
   AviCloudName: Vmware
-  mgmt_dgw: 192.168.100.254
-  mgmt_start_addr: 192.168.101.100
-  mgmt_end_addr: 192.168.101.113
+  mgmt_dgw: 10.206.112.1
+  mgmt_start_addr: 10.206.112.108
+  mgmt_end_addr: 10.206.112.113
   SEgroupname: Default-Group
   cloud_discovery_time: 180
   se_prefix: 'SE_Remo'
@@ -101,7 +99,7 @@ vcenter:
 
 # Avi info used in the script
 avi_credentials:
-  controller: '{{ controllers.0.mgmt_ip }}'
+  controller: '{{ controllers.0.mgmt_ip }}' 
   username: "{{ username }}"
   password: "{{ avi_password }}"
   api_version: "{{ api_version }}"
@@ -110,33 +108,38 @@ avi_credentials:
 # Keep that in mind. 
 con_disk_size: 100
 
+# Controller Cluster VIP
+cluster_VIP: 10.206.112.96
+cluster_name: mycluster_name
+#
+#
 # POOL INFO
-cluster_VIP: 192.168.101.114
-POOL_IP: 192.168.100.235
-VS_IP2: 192.168.101.98
-VS_IP: 192.168.101.97
+POOL_IP: 10.206.114.88
+VS_IP2: 10.206.112.125
+VS_IP: 10.206.112.126
 VS_SE_Group: Default-Group
 app_name: test_me
 name_pool: test-pool
 state_set: present
 enabled: true
 
+
 controllers:
     - vm_name: remo_ctrl01
       power_on: true
-      mgmt_ip: 192.168.101.114
-      mgmt_mask: 255.255.254.0
-      default_gw: 192.168.100.254
-      #con_vcenter_datastore: '{{ datacenter_datastore }}'
-    #- vm_name: remo_ctrl02
-    #  power_on: true
-    #  mgmt_ip: 192.168.101.115
-    #  mgmt_mask: 255.255.254.0
-    #  default_gw: 192.168.100.254
-    #  #con_vcenter_datastore: '{{ datacenter_datastore_1 }}'
-    #- vm_name: remo_ctrl03
-    #  power_on: true
-    #  mgmt_ip: 192.168.101.116
-    #  mgmt_mask: 255.255.254.0
-    #  default_gw: 192.168.100.254
-    #  #con_vcenter_datastore: '{{ datacenter_datastore_2 }}'
+      mgmt_ip: 10.206.112.97
+      mgmt_mask: 255.255.252.0
+      default_gw: 10.206.112.1
+      #con_vcenter_datastore: '{{ datacenter_datastore }}' # to use if you want a specific storage
+    - vm_name: remo_ctrl02
+      power_on: true
+      mgmt_ip: 10.206.112.98
+      mgmt_mask: 255.255.252.0
+      default_gw: 10.206.112.1
+      #con_vcenter_datastore: '{{ datacenter_datastore_1 }}' # to use if you want a specific storage
+    - vm_name: remo_ctrl03
+      power_on: true
+      mgmt_ip: 10.206.112.99
+      mgmt_mask: 255.255.252.0
+      default_gw: 10.206.112.1
+      #con_vcenter_datastore: '{{ datacenter_datastore_2 }}' # to use if you want a specific storage

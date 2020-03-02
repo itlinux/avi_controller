@@ -7,38 +7,20 @@
     - role: avinetworks.aviconfig
   gather_facts: false
   tasks:
-    - name: Deploy Avi Controllers
-      deploy_controller:
-        state: present
-        ovftool_path: '{{ ovftool_path }}'
-        vcenter_host: '{{ vcenter.vcenter_url }}'
-        vcenter_user: '{{ vcenter.username }}'
-        vcenter_password: '{{ vcenter.password }}'
-        con_datacenter: '{{ datacenter }}'
-        con_cluster: '{{ cluster }}'
-        con_datastore: '{{ datastore | default(omit) }}'
-        con_disk_mode: '{{ disk_mode | default(omit) }}'
-        con_mgmt_network: '{{ mgmt_network }}'
-        con_ova_path: '{{ ova_path }}'
-        con_power_on: '{{ power_on }}'
-        con_vcenter_folder: '{{ vcenter_folder }}'
-        #con_vcenter_parent_folder: '{{ vcenter_parent_folder }}'
-        con_disk_size: '{{ disk_size | default(omit) }}'
-        con_vm_name: '{{ item.name }}'
-        con_mgmt_ip: '{{ item.mgmt_ip }}'
-        con_mgmt_mask: '{{ item.mgmt_mask}}'
-        con_default_gw: '{{ item.default_gw }}'
-      no_log: false
-      with_items:
-        - "{{ controller1 }}"
-        - "{{ controller2 }}"
-        - "{{ controller3 }}"
-      tags:
-        - avicontrollers
     - name: Wait for Controller be ready
       uri:
         validate_certs: false
-        url: "http://{{ controller1[0].mgmt_ip }}/"
+        url: "http://{{ controllers.0.mgmt_ip }}/"
+        method: GET
+        status_code: 200,302,301,503
+      register: statusCode_output
+      until: statusCode_output.status == 200
+      retries: 120
+      delay: 60
+    - name: Wait for controller 2 be ready
+      uri:
+        validate_certs: false
+        url: "http://{{ controllers.1.mgmt_ip }}/"
         method: GET
         status_code: 200,302,301,503
       register: statusCode_output
@@ -46,33 +28,30 @@
       retries: 120
       delay: 60
       tags:
-        - waitctl
-    - name: Check Cluster Status
+        - second_ctl
+    - name: Wait for controller 3 be ready
       uri:
         validate_certs: false
-        url: "https://{{ controller1[0].mgmt_ip }}/api/cluster/runtime"
+        url: "http://{{ controllers.2.mgmt_ip }}/"
         method: GET
         status_code: 200,302,301,503
-      register: cluster_status
-      until: cluster_status.json.cluster_state.progress == 100
+      register: statusCode_output
+      until: statusCode_output.status == 200
       retries: 120
       delay: 60
       tags:
-        - checking_ctl
-    - name: Wait to all services be ready
-      pause:
-        echo: false
-        seconds: 60
+        - third_ctl
     - name: Set admin password
       avi_useraccount:
         avi_credentials: '{{ avi_credentials }}'
         old_password: '{{ old_password }}'
-        api_version: '{{ avi_credentials.api_version }}'
+        api_version: '{{ api_version }}'
+        controller: '{{ controllers.0.mgmt_ip }}'
       tags:
         - passwordavi
     - name: Basic Controller Config
       avi_systemconfiguration:
-        controller: '{{ controller1[0].mgmt_ip }}'
+        controller: '{{ controllers.0.mgmt_ip }}'
         username: '{{ username }}'
         password: '{{ password }}'
         api_version: '{{ api_version }}'

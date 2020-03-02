@@ -1,0 +1,57 @@
+---
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Avi Application | Setup App1
+      include_role:
+        name: avinetworks.aviconfig
+      vars:
+        avi_config:
+          pool:
+            - name: '{{ name_pool }}'
+              state: '{{ state_set }}'
+              enabled: '{{ enabled }}'
+              cloud_ref: '/api/cloud?name={{ vcenter.AviCloudName }}'
+              lb_algorithm: LB_ALGORITHM_ROUND_ROBIN
+              application_persistence_profile_ref: '/api/applicationpersistenceprofile?name=System-Persistence-Client-IP'
+              health_monitor_refs:
+                - "/api/healthmonitor?name=System-TCP"
+              servers:
+                - hostname: webserver
+                  enabled: true
+                  ip:
+                     addr: "{{ POOL_IP }}"
+                     type: 'V4'
+          virtualservice:
+            - name: '{{ app_name }}'
+              state: '{{ state_set }}'
+              enabled: '{{ enabled }}'
+              services:
+                - port: 443
+                  enable_ssl: true
+                - port: 80
+              ssl_profile_ref: '/api/sslprofile?name=System-Standard'
+              application_profile_ref: '/api/applicationprofile?name=System-Secure-HTTP'
+              waf_policy_ref: "/api/wafpolicy?name=System-WAF-Policy"
+              ssl_key_and_certificate_refs:
+                - "/api/sslkeyandcertificate?name=System-Default-Cert"
+                - "/api/sslkeyandcertificate?name=System-Default-Cert-EC"
+              pool_ref: '/api/pool?name={{ name_pool }}'
+              cloud_ref: '/api/cloud?name={{ vcenter.AviCloudName }}'
+              vsvip_ref: '/api/vsvip?name={{ app_name }}_vsvip'
+          vsvip:
+            - name: '{{ app_name }}_vsvip'
+              state: present
+              cloud_ref: '/api/cloud?name={{ vcenter.AviCloudName }}'
+              vip:
+                - vip_id: '1'
+                  avi_allocated_fip: false
+                  auto_allocate_ip: false
+                  enabled: '{{ enabled }}' 
+                  auto_allocate_floating_ip: false
+                  avi_allocated_vip: false
+                  auto_allocate_ip_type: V4_ONLY
+                  ip_address:
+                    type: V4
+                    addr: "{{ VS_IP2 }}" 

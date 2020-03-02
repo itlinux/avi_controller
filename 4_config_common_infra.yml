@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  gather_facts: no
+  connection: local
+
+  tasks:
+    - name: Configure Networks, VRFs
+      no_log: true
+      import_role:
+        name: avinetworks.aviconfig
+      vars:
+        avi_config:
+            network:
+              - name: '{{ vcenter.network_mgmt }}'
+                cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
+                dhcp_enabled: false
+                exclude_discovered_subnets: true
+                configured_subnets:
+                  - prefix:
+                      mask: '{{ vcenter.network_subnet_mask }}'
+                      ip_addr:
+                        type: V4
+                        addr: '{{ vcenter.network_subnet }}'
+                    static_ranges:
+                      - begin:
+                          type: V4
+                          addr: '{{ vcenter.mgmt_start_addr }}'
+                        end:
+                          type: V4
+                          addr: '{{ vcenter.mgmt_end_addr }}'
+            vrfcontext:
+              - name: management
+                cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
+                static_routes:
+                  - route_id: '1'
+                    prefix:
+                      mask: 0
+                      ip_addr:
+                        type: V4
+                        addr: 0.0.0.0
+                    next_hop:
+                      type: V4
+                      addr: '{{ vcenter.mgmt_dgw }}'

@@ -1,0 +1,20 @@
+---
+#Created by Remo Mattei
+#
+- hosts: localhost
+  connection: local
+
+- name: Deploy Controllers OVAs to VMware Infrastructure
+  import_playbook: 1_deploy_controller.yml
+
+- name: Configure Controllers
+  import_playbook: 2_config_controllers.yml
+
+- name: Configure Cloud CC for VMware
+  import_playbook: 3_config_cloud_cc_vmware.yml
+
+- name: Configure Common Infra Network  
+  import_playbook: 4_config_common_infra.yml
+
+- name: Configure SE Group
+  import_playbook: 5_config_se_groups.yml
