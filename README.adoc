@@ -153,6 +153,11 @@ ansible-playbook -i inventory/datacenter1/hosts 2_config_controllers.yml --skip-
 ----
 
 
+== Config Avi Cluster
+To set the cluster run the following playbook
+----
+ansible-playbook -i inventory/datacenter1/hosts controller_cluster.yml --ask-vault-pass
+----
 
 
 == Create a Virtual Service and Backend Pool
