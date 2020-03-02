@@ -41,6 +41,37 @@ docker exec -it avitools bash
 
 NOTE: In CentOS, or RHEL if you have SELinux enabled you may need to set it to permissions mode or track down the /var/log/audit/audit.log id to exclude it from creating issue within the container.
 
+Check status
+----
+[root@localhost ~]# sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Max kernel policy version:      31
+[root@localhost ~]#
+----
+If you have it in enforcing mode set it to permissive 
+
+----
+[root@localhost ~]# setenforce 0
+[root@localhost ~]# sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   permissive
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Max kernel policy version:      31
+[root@localhost ~]#
+----
+
 == Git down the playbook
 Once installed and have the sdk container from Avi running you will need to pull down this repo.
 
