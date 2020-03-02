@@ -127,6 +127,15 @@ Make sure the variable has the same name before you run the playbook.
 
 == Run the playbook
 
+TIPS: If you do not want to run the -i for the inventory every time you can change the ansible.cfg and set the default env there. 
+Then you would just type the main task. example:
+
+----
+ansible-playbook main.yml --ask-vault-pass
+----
+
+However, I like to have this so I know where which env I am using :).
+
 
 You can run one playbook using the following:
 ----
