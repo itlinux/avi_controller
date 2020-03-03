@@ -90,7 +90,7 @@ vcenter:
   network_mgmt: '{{ mgmt_network }}'
   network_subnet: 192.168.100.0
   network_subnet_mask: 23
-  AviCloudName: Vmware
+  AviCloudName: VMware
   mgmt_dgw: 192.168.100.254
   mgmt_start_addr: 192.168.101.100
   mgmt_end_addr: 192.168.101.113
