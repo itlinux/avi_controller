@@ -15,7 +15,7 @@
   tasks:
     - name: Deploy Avi Controllers
       deploy_controller:
-        state: "{{ state | default('present')}}"
+        state: "{{ state | default('present') }}"
         ovftool_path:  "{{ ovftool_path }}"
         vcenter_host: "{{ vcenter.vcenter_url }}"
         vcenter_user: "{{ vcenter.username }}"
@@ -26,7 +26,7 @@
         con_vcenter_folder: "{{ vcenter_folder }}"
         con_mgmt_network: "{{ mgmt_network }}"
         con_vm_name: "{{ item.vm_name }}"
-        con_power_on: "{{ item.power_on}}"
+        con_power_on: "{{ item.power_on }}"
         con_mgmt_ip: "{{ item.mgmt_ip }}"
         con_mgmt_mask: "{{ item.mgmt_mask }}"
         con_default_gw: "{{ item.default_gw }}"
@@ -46,6 +46,6 @@
         jid: "{{ item.ansible_job_id }}"
       register: _jobs_ctl_0
       retries: 3000
-      delay: 10 
+      delay: 10
       until: _jobs_ctl_0.finished
       loop: "{{ _ctl_0.results }}"

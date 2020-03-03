@@ -5,7 +5,7 @@
 
   tasks:
     - name: Configure Networks, VRFs
-      no_log: true
+      no_log: True
       import_role:
         name: avinetworks.aviconfig
       vars:
@@ -13,8 +13,8 @@
             network:
               - name: '{{ vcenter.network_mgmt }}'
                 cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
-                dhcp_enabled: false
-                exclude_discovered_subnets: true
+                dhcp_enabled: False
+                exclude_discovered_subnets: True
                 configured_subnets:
                   - prefix:
                       mask: '{{ vcenter.network_subnet_mask }}'

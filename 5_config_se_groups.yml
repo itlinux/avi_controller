@@ -5,7 +5,7 @@
 
   tasks:
     - name: Configure SE Group
-      no_log: true
+      no_log: True
       import_role:
         name: avinetworks.aviconfig
       vars:
@@ -18,23 +18,23 @@
               ha_mode: HA_MODE_SHARED
               algo: PLACEMENT_ALGO_DISTRIBUTED
               vcpus_per_se: 6
-              cpu_reserve: true
+              cpu_reserve: True
               memory_per_se: 12288
-              mem_reserve: true
+              mem_reserve: True
               disk_per_se: 64
               min_se: 4
               max_se: 6
               buffer_se: 2
               min_scaleout_per_vs: 4
               max_scaleout_per_vs: 6
-              dedicated_dispatcher_core: true
+              dedicated_dispatcher_core: True
               se_deprovision_delay: 0
               license_type: LIC_CORES
               vcenter_clusters:
-                include: true
+                include: True
                 cluster_refs:
                   - "{{ '/api/vimgrhostruntime/?name=' + cluster }}"
-              vcenter_datastores_include: true
+              vcenter_datastores_include: True
               vcenter_datastore_mode: VCENTER_DATASTORE_SHARED
               vcenter_datastores:
                   - datastore_name: "{{ datacenter_datastore }}"
@@ -42,4 +42,4 @@
           backupconfiguration:
             - name: Backup-Configuration
               backup_passphrase: '{{ backup_passphrase }}'
-              save_local: true
+              save_local: True

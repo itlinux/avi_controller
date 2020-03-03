@@ -5,11 +5,11 @@
     - role: avinetworks.avicontroller_vmware
     - role: avinetworks.avisdk
     - role: avinetworks.aviconfig
-  gather_facts: false
+  gather_facts: False
   tasks:
     - name: Wait for Controller be ready
       uri:
-        validate_certs: false
+        validate_certs: False
         url: "http://{{ controllers.0.mgmt_ip }}/"
         method: GET
         status_code: 200,302,301,503
@@ -19,7 +19,7 @@
       delay: 60
     - name: Wait for controller 2 be ready
       uri:
-        validate_certs: false
+        validate_certs: False
         url: "http://{{ controllers.1.mgmt_ip }}/"
         method: GET
         status_code: 200,302,301,503
@@ -31,7 +31,7 @@
         - second_ctl
     - name: Wait for controller 3 be ready
       uri:
-        validate_certs: false
+        validate_certs: False
         url: "http://{{ controllers.2.mgmt_ip }}/"
         method: GET
         status_code: 200,302,301,503
@@ -59,9 +59,9 @@
           smtp_type: SMTP_LOCAL_HOST
           from_email: '{{ avi_email }}'
         global_tenant_config:
-          se_in_provider_context: true
-          tenant_access_to_provider_se: true
-          tenant_vrf: false
+          se_in_provider_context: True
+          tenant_access_to_provider_se: True
+          tenant_vrf: False
         dns_configuration:
           search_domain: '{{ search_domains }}'
           server_list:
@@ -70,15 +70,15 @@
             - type: V4
               addr: '{{ dns_server02 }}'
         portal_configuration:
-          use_uuid_from_input: false
-          redirect_to_https: true
-          disable_remote_cli_shell: false
-          enable_clickjacking_protection: true
-          enable_http: true
-          enable_https: true
-          password_strength_check: true
-          allow_basic_authentication: false
-          disable_swagger: false
+          use_uuid_from_input: False
+          redirect_to_https: True
+          disable_remote_cli_shell: False
+          enable_clickjacking_protection: True
+          enable_http: True
+          enable_https: True
+          password_strength_check: True
+          allow_basic_authentication: False
+          disable_swagger: False
         ntp_configuration:
           ntp_servers:
             - server:
@@ -88,7 +88,7 @@
                 type: DNS
                 addr: "{{ ntp_server02 }}"
         default_license_tier: ENTERPRISE_18
-        welcome_workflow_complete: true
+        welcome_workflow_complete: True
         linux_configuration:
           motd: "{{ motd_welcome }}"
           banner: "{{ banner_txt }}"

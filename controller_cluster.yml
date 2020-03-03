@@ -1,30 +1,36 @@
 ---
 - hosts: localhost
+  gather_facts: False
   connection: local
-  roles:
-    - role: avinetworks.aviconfig
-  gather_facts: false
   tasks:
-    - name: Set cluster name
-      avi_cluster:
-        state: absent
-        avi_credentials: "{{ avi_credentials }}"
-        api_version: "{{ api_version }}"
-        virtual_ip: "{{ cluster_VIP }}"
-        name: "{{ cluster_name }}"
-        nodes:
-          - name: "{{ controllers.0.mgmt_ip }}"
-            ip:
-              addr: "{{ controllers.0.mgmt_ip }}"
-              type: "V4"
-          - name: "{{ controllers.1.mgmt_ip }}"
-            ip:
-              addr: "{{ controllers.1.mgmt_ip }}"
-              type: "V4"
-          - name: "{{ controllers.2.mgmt_ip }}"
-            ip:
-              addr: "{{ controllers.2.mgmt_ip }}"
-              type: "V4"
-      with_items: "{{ avi_role_cfg.cluster | default([]) }}"
-# - name: Common | Wait for cluster
-# include_tasks: "common_tasks/wait_cluster_runtime.yml"
+    - name: Get Facts Avi Cluster Config
+      no_log: False
+      import_role:
+        name: avinetworks.aviconfig
+      vars:
+        avi_credentials:
+          api_version: "{{ api_version }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+          controller: "{{ controllers.0.mgmt_ip }}"
+        avi_config_cluster:
+          cluster:
+            - nodes:
+                - ip:
+                    type: V4
+                    addr: "{{ controllers.0.mgmt_ip }}"
+                - ip:
+                    type: V4
+                    addr: "{{ controllers.1.mgmt_ip }}"
+                - ip:
+                    type: V4
+                    addr: "{{ controllers.2.mgmt_ip }}"
+              name: '{{ cluster_name }}'
+              virtual_ip:
+                type: V4
+                addr: "{{ cluster_IP }}"
+    - name: Setup Avi Cluster Nodes and  IPs
+      import_role:
+        name: avinetworks.aviconfig
+      vars:
+        avi_config: "{{ avi_config_cluster }}"

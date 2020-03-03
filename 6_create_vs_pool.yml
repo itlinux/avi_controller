@@ -19,7 +19,7 @@
                 - "/api/healthmonitor?name=System-TCP"
               servers:
                 - hostname: webserver
-                  enabled: true
+                  enabled: True
                   ip:
                      addr: "{{ POOL_IP }}"
                      type: 'V4'
@@ -29,7 +29,7 @@
               enabled: '{{ enabled }}'
               services:
                 - port: 443
-                  enable_ssl: true
+                  enable_ssl: True
                 - port: 80
               ssl_profile_ref: '/api/sslprofile?name=System-Standard'
               application_profile_ref: '/api/applicationprofile?name=System-Secure-HTTP'
@@ -46,12 +46,12 @@
               cloud_ref: '/api/cloud?name={{ vcenter.AviCloudName }}'
               vip:
                 - vip_id: '1'
-                  avi_allocated_fip: false
-                  auto_allocate_ip: false
-                  enabled: '{{ enabled }}' 
-                  auto_allocate_floating_ip: false
-                  avi_allocated_vip: false
+                  avi_allocated_fip: False
+                  auto_allocate_ip: False
+                  enabled: '{{ enabled }}'
+                  auto_allocate_floating_ip: False
+                  avi_allocated_vip: False
                   auto_allocate_ip_type: V4_ONLY
                   ip_address:
                     type: V4
-                    addr: "{{ VS_IP2 }}" 
+                    addr: "{{ VS_IP2 }}"

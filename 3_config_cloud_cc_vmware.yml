@@ -6,7 +6,7 @@
   tasks:
     - name: Define Cloud Connector configuration
       set_fact:
-        no_log: true
+        no_log: True
         avi_config_cloud:
           avi_cloud_discovery_wait: "{{ vcenter.cloud_discovery_time }}"
           cloud:
@@ -25,19 +25,19 @@
                 privilege: WRITE_ACCESS
                 vcenter_url: "{{ vcenter.vcenter_url }}"
                 password: "{{ vcenter.password }}"
-              enable_vip_static_routes: true
-              prefer_static_routes: true
+              enable_vip_static_routes: True
+              prefer_static_routes: True
               license_type: LIC_CORES
 
     - name: Discover Cloud Subnets
-      no_log: true
+      no_log: True
       import_role:
         name: avinetworks.aviconfig
       vars:
         avi_config: "{{ avi_config_cloud }}"
 
     - name: Setup Cloud Connector
-      no_log: true
+      no_log: True
       import_role:
         name: avinetworks.aviconfig
       vars:

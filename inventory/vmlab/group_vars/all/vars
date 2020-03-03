@@ -28,7 +28,7 @@ mgmt_network: 'vxw-dvs-34-virtualwire-3-sid-6120002-wdc-06-vc12-avi-mgmt'
 power_on: true
 
 # Folder where to push the Avi Controller
-vcenter_folder: 'Remo'
+vcenter_folder: 'Remo/Controllers'
 # we do not honor the parent_folder yet!
 vcenter_parent_folder: 'Remo'
 
@@ -109,8 +109,8 @@ avi_credentials:
 con_disk_size: 100
 
 # Controller Cluster VIP
-cluster_VIP: 10.206.112.96
-cluster_name: mycluster_name
+cluster_IP: 10.206.112.96
+cluster_name: remo_cluster
 #
 #
 # POOL INFO
