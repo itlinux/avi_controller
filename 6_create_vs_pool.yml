@@ -21,8 +21,8 @@
                 - hostname: webserver
                   enabled: True
                   ip:
-                     addr: "{{ POOL_IP }}"
-                     type: 'V4'
+                    addr: "{{ POOL_IP }}"
+                    type: 'V4'
           virtualservice:
             - name: '{{ app_name }}'
               state: '{{ state_set }}'
@@ -40,6 +40,18 @@
               pool_ref: '/api/pool?name={{ name_pool }}'
               cloud_ref: '/api/cloud?name={{ vcenter.AviCloudName }}'
               vsvip_ref: '/api/vsvip?name={{ app_name }}_vsvip'
+              analytics_policy:
+                all_headers: True
+                client_insights: NO_INSIGHTS
+                full_client_logs:
+                  duration: 0
+                  enabled: True
+                  throttle: 10
+                metrics_realtime_update:
+                  duration: 0
+                  enabled: True
+                significant_log_throttle: 10
+                udf_log_throttle: 10
           vsvip:
             - name: '{{ app_name }}_vsvip'
               state: present
