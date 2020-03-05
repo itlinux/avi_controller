@@ -25,7 +25,7 @@
                 - ip:
                     type: V4
                     addr: "{{ controllers.2.mgmt_ip }}"
-              name: '{{ cluster_name }}'
+              name: "{{ cluster_name }}"
               virtual_ip:
                 type: V4
                 addr: "{{ cluster_IP }}"

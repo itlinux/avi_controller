@@ -13,7 +13,7 @@
 - name: Configure Cloud CC for VMware
   import_playbook: 3_config_cloud_cc_vmware.yml
 
-- name: Configure Common Infra Network  
+- name: Configure Common Infra Network
   import_playbook: 4_config_common_infra.yml
 
 - name: Configure SE Group
