@@ -189,7 +189,7 @@ If you do not run all 3 controllers the steps will change a bit, since the step 
 
 example: 
 ----
-ansible-playbook -i inventory/datacenter1/hosts 2_config_controllers.yml --skip-tags second_ctl,thrid_ctl --ask-vault-pass
+ansible-playbook -i inventory/datacenter1/hosts 2_config_controllers.yml --skip-tags second_ctl,third_ctl --ask-vault-pass
 ----
 
 
