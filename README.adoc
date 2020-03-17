@@ -55,7 +55,7 @@ Policy deny_unknown status:     allowed
 Max kernel policy version:      31
 [root@localhost ~]#
 ----
-If you have it in enforcing mode set it to permissive 
+If you have it in enforcing mode set it to permissive
 
 ----
 [root@localhost ~]# setenforce 0
@@ -81,6 +81,9 @@ git clone https://github.com/itlinux/avi_controller.git
 
 == Setup your environment
 
+
+NOTE: You can edit the files from the host or from within the docker container.
+
 Steps: +
 
 
@@ -88,11 +91,12 @@ Steps: +
 # cd avi_controller/inventory/
 ----
 
-Copy the home dir as your base template, you can use any names you want. Example datacenter1 or DC1 etc.
+Copy the home dir as your base template, you can use any names you want. Example datacenter1 or DC1 or remomatteidclab1forfun etc.
 ----
 # cp -R home datacenter1
 ----
 
+Once you are in the avi_controller git repo you can edit all files from here using the path to your inventory location. 
 Remove the vault.yml file since you will create a new one with your password.
 ----
 # rm datacenter1/group_vars/all/vault.yml
@@ -104,7 +108,6 @@ Create vault file in the <yournewenv>/group_vars/all with the following command.
 ----
 
 Once you enter your password you need to add the following variables: (those are used in the playbook).
-
 ----
 vmware_pass: 'Password1'
 avi_password: 'Password2'
@@ -116,7 +119,6 @@ You need to get it from the Avi Portal
 
 
 Once that is completed you need to adjust the variables for your env.
-
 ----
 vi datacenter1/group_vars/all/vars
 ----
@@ -127,7 +129,7 @@ Make sure the variable has the same name before you run the playbook.
 
 == Run the playbook
 
-TIPS: If you do not want to run the -i for the inventory every time you can change the ansible.cfg and set the default env there. 
+TIPS: If you do not want to run the -i for the inventory every time you can change the ansible.cfg and set the default env there.
 Then you would just type the main task. example:
 
 ----
@@ -140,6 +142,12 @@ However, I like to have this so I know where which env I am using :).
 You can run one playbook using the following:
 ----
 ansible-playbook -i inventory/datacenter1/hosts main.yml --ask-vault-pass
+----
+
+or
+
+----
+ansible-playbook -i inventory/datacenter1/hosts --ask-vault-pass main.yml
 ----
 
 Once completed you will see something like this:
@@ -183,11 +191,11 @@ Once completed you will see something like this:
     root@avitools:/opt/avi/ansi-controller-deployment#
 ----
 
-NOTE: This is an output of a controller that I just deployed using the script.  Depending on your network and VMware / vSphere for the speed. I have seen it from  few minutes up to 30 minutes, depending if you deploy 3 controllers or single controller. 
-By default it's set to deploy all 3 controllers, keep that in mind. If you do want to deploy one one controller to test it you need to comment out the vars file under your inventory env. 
-If you do not run all 3 controllers the steps will change a bit, since the step 2 will wait for the controllers to be up. You can do the steps manually and use the skip-tags option to not include the 2nd and 3rd controller. 
+NOTE: This is an output of a controller that I just deployed using the script.  Depending on your network and VMware / vSphere for the speed. I have seen it from  few minutes up to 30 minutes, depending if you deploy 3 controllers or single controller.
+By default it's set to deploy all 3 controllers, keep that in mind. If you do want to deploy one one controller to test it you need to comment out the vars file under your inventory env.
+If you do not run all 3 controllers the steps will change a bit, since the step 2 will wait for the controllers to be up. You can do the steps manually and use the skip-tags option to not include the 2nd and 3rd controller.
 
-example: 
+example:
 ----
 ansible-playbook -i inventory/datacenter1/hosts 2_config_controllers.yml --skip-tags second_ctl,third_ctl --ask-vault-pass
 ----
@@ -207,14 +215,20 @@ NOTE: Your Backend needs to be set. I only configured this with one backend. Thi
 Edit the section in the vars called POOL
 ----
 # POOL INFO
+# The IP of the pool
 POOL_IP: 192.168.100.235
+# VS_IP2 is the IP of the VS created by the playbook
 VS_IP2: 192.168.101.98
+#VS_IP is not in used just copy the playbook if you want another VS
 VS_IP: 192.168.101.97
+# SE Group config
 VS_SE_Group: Default-Group
+#Name of the app
 app_name: app1
+#Name of the pool
 name_pool: test-pool
 state_set: present
 enabled: true
 ----
 
-I set the VS_IP2 as the VS VIP for now
+I set the VS_IP2 as the VS VIP for now VS_IP is if you want a new VS. 

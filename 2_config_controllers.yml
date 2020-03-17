@@ -1,3 +1,5 @@
+# Author Remo Mattei
+# Email: rm@rm.ht
 ---
 - hosts: localhost
   connection: local

@@ -4,6 +4,7 @@ ovftool_path: /usr/lib/vmware-ovftool
 
 # downloaded OVA location
 ova_path: './software/controller-18.2.8-9098.ova'
+avi_ova_path: './software/perf-server-client.ova'
 
 # Datacenter to use
 datacenter: 'Remo'
@@ -120,6 +121,14 @@ app_name: test_me
 name_pool: test-pool
 state_set: present
 enabled: true
+
+#templates for new VM Clone
+vm_templates: CentOS7-16GB
+vm_ip: 192.168.101.11/23
+vm_gw: 192.168.100.254
+machine_name: web02
+machine_name1: web-ubuntu
+
 
 controllers:
     - vm_name: remo_ctrl01

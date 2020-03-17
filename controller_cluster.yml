@@ -1,36 +1,42 @@
+# Author Remo Mattei
+# Email: rm@rm.ht
 ---
 - hosts: localhost
-  gather_facts: False
   connection: local
+  roles:
+    - role: avinetworks.avisdk
   tasks:
-    - name: Get Facts Avi Cluster Config
-      no_log: False
-      import_role:
-        name: avinetworks.aviconfig
-      vars:
-        avi_credentials:
-          api_version: "{{ api_version }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
-          controller: "{{ controllers.0.mgmt_ip }}"
-        avi_config_cluster:
-          cluster:
-            - nodes:
-                - ip:
-                    type: V4
-                    addr: "{{ controllers.0.mgmt_ip }}"
-                - ip:
-                    type: V4
-                    addr: "{{ controllers.1.mgmt_ip }}"
-                - ip:
-                    type: V4
-                    addr: "{{ controllers.2.mgmt_ip }}"
-              name: "{{ cluster_name }}"
-              virtual_ip:
-                type: V4
-                addr: "{{ cluster_IP }}"
-    - name: Setup Avi Cluster Nodes and  IPs
-      import_role:
-        name: avinetworks.aviconfig
-      vars:
-        avi_config: "{{ avi_config_cluster }}"
+    - name: Create the node payload
+      set_fact:
+        node:
+          ip:
+            type: V4
+            addr:  "{{ item }}"
+          name: "{{ item }}"
+      loop:
+       - "{{ controllers.0.mgmt_ip }}"
+       - "{{ controllers.1.mgmt_ip }}"
+       - "{{ controllers.2.mgmt_ip }}"
+      register: node_result
+    - name: Create a list of nodes
+      set_fact:
+        nodes : "{{ node_result.results | map(attribute='ansible_facts.node')| list }}"
+    - debug: var=nodes
+    - name: Configure Avi Controller Clusters
+      avi_api_session:
+        controller: "{{ controllers.0.mgmt_ip }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        api_version: "{{ api_version }}"
+        http_method: put
+        path: cluster
+        data:
+          tenant_uuid: "admin"
+          name: "{{ cluster_name }}"
+          virtual_ip:
+            type: V4
+            addr: "{{ cluster_IP }}"
+          nodes: "{{ nodes }}"
+      register: ccluster
+    - debug:
+        msg: "Result Register : {{ ccluster }}, This may take a few min!!"
