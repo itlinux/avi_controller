@@ -207,6 +207,8 @@ To set the cluster run the following playbook
 ansible-playbook -i inventory/datacenter1/hosts controller_cluster.yml --ask-vault-pass
 ----
 
+== SEG
+Step 5 creates two SEG one in AA mode the other in N+M mode. AA also has metrics set and deletion to 5 min whereas the N+M has no metrics enabled and deletion is at 0 min. 
 
 == Create a Virtual Service and Backend Pool
 NOTE: Your Backend needs to be set. I only configured this with one backend. This is just a demo!
