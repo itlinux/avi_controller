@@ -4,7 +4,6 @@
 - hosts: localhost
   gather_facts: no
   connection: local
-
   tasks:
     - name: Configure SE Group
       no_log: True
@@ -17,8 +16,8 @@
               cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
               se_name_prefix: "{{ vcenter.se_prefix }}"
               placement_mode: PLACEMENT_MODE_AUTO
-              ha_mode: HA_MODE_SHARED
-              algo: PLACEMENT_ALGO_DISTRIBUTED
+              ha_mode: HA_MODE_SHARED_PAIR 
+              algo: PLACEMENT_ALGO_PACKED
               vcpus_per_se: 6
               cpu_reserve: True
               memory_per_se: 12288
@@ -40,6 +39,29 @@
               vcenter_datastore_mode: VCENTER_DATASTORE_SHARED
               vcenter_datastores:
                   - datastore_name: "{{ datacenter_datastore }}"
+              vcenter_folder: "{{ vcenter_folder }}"
+            - name: "{{ vcenter.AviCloudName }}-AA"
+              cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
+              se_name_prefix: "{{ vcenter.se_prefix }}"
+              placement_mode: PLACEMENT_MODE_AUTO
+              ha_mode: HA_MODE_SHARED_PAIR
+              algo: PLACEMENT_ALGO_PACKED
+              realtime_se_metrics:
+                enabled: True
+                duration: 10
+              vcpus_per_se: 6
+              cpu_reserve: True
+              memory_per_se: 12288
+              mem_reserve: True
+              disk_per_se: 64
+              min_se: 4
+              max_se: 6
+              buffer_se: 2
+              min_scaleout_per_vs: 4
+              max_scaleout_per_vs: 6
+              dedicated_dispatcher_core: True
+              se_deprovision_delay: 5
+              license_type: LIC_CORES
               vcenter_folder: "{{ vcenter_folder }}"
           backupconfiguration:
             - name: Backup-Configuration
