@@ -35,6 +35,16 @@ From a Linux Box /opt/docker will be mapped to /opt/avi therefore when you docke
 ----
 mkdir /opt/docker
 chmod +x run.sh
+vi run.sh and add --privileged=true  like in my script
+
+***
+echo "Using Avitools docker image: $AVITOOLS_DOCKER_IMAGE with args: ${@}"
+    if [ $RUN_IN_BACKGROUND ]; then
+        docker run -td  --privileged=true --hostname $CONTAINER_HOSTNAME --name $CONTAINER_HOSTNAME -w /opt/avi --security-opt label=level:s0:c1,c2  -v $DIR:/opt/avi $NET "$AVITOOLS_DOCKER
+_IMAGE" $CMD
+        exit 0
+****
+
 ./run.sh -v 18.2.7 -c bash -d /opt/docker -b
 docker exec -it avitools bash
 ----
