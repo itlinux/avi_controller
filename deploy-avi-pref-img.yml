@@ -1,0 +1,67 @@
+# Author Remo Mattei
+---
+- name: Create a VM from a template
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  tasks:
+    - vmware_deploy_ovf:
+        hostname: "{{ vcenter.vcenter_url }}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        datacenter: "{{ vcenter.datacenter }}"
+        cluster: "{{ cluster }}"
+        datastore: "{{ datacenter_datastore }}"
+        name: "{{ machine_name1 }}"
+        networks: {"net": "{{ mgmt_network }}"}
+        validate_certs: false
+        allow_duplicates: false
+        wait: true
+        wait_for_ip_address: true
+        folder: "/{{ datacenter }}/vm/{{ vcenter_folder }}"
+        power_on: true
+        ovf: "{{ avi_ova_path }}"
+      delegate_to: localhost
+      tags:
+        - avi_pref_test
+    - name: Change network adapter settings of virtual machine
+      vmware_guest_network:
+        hostname: "{{ vcenter.vcenter_url }}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        datacenter: "{{ vcenter.datacenter }}"
+        validate_certs: false
+        name: "{{ machine_name1 }}"
+        gather_network_info: false
+        networks:
+          - state: new
+            label: "Network adapter 3"
+            connected: true
+            name: "{{ mgmt_network }}"
+            adapter_type: E1000
+            start_connected: true
+      delegate_to: localhost
+      tags:
+        - machine_ip
+    - name: "Set correct ip"
+      local_action:
+        module: vmware_vm_shell
+        hostname: "{{ vcenter.vcenter_url }}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        datacenter: "{{ datacenter }}"
+        validate_certs: false
+        vm_id: "{{ item.hostname }}"
+        vm_username: root
+        vm_password: avi123
+        vm_shell: /sbin/ifconfig
+        vm_shell_args: "eth2 {{ item.ip }} && route add default gw {{ item.gw }}"
+        vm_shell_env:
+          - "PATH=/sbin"
+        vm_shell_cwd: "/tmp"
+      with_items:
+        - hostname: "{{ machine_name1 }}"
+          ip: "{{ vm_ip }}"
+          gw: "{{ vm_gw }}"
+      tags:
+        - set_ip_addr

@@ -1,0 +1,35 @@
+# Placement in case we have discover mulitple networks
+IPADDR_PLACEMENT: 10.206.112.0/22
+# Network Managment
+MGMT_NET: "{{ mgmt_network }}"
+# Clound Name
+CLOUD_NAME: VMware
+# VIP IP for the LB
+IP_VIP: 10.206.112.122
+# Domain Name
+DOMAIN_NAME: horizon.demoavi.us
+#UAG Pool
+POOL_SERVER1: 10.206.112.118
+POOL_SERVER2: 
+# Profile to use for the VDI
+APP_PROFILE: System-Secure-HTTP-VDI
+# Cert
+HORIZON_CERT: Horizon_SSL_Cert
+# HW Monitor
+HORIZON_HM: https-monitor-horizon
+# UDP Profile
+UDP_PROFILE: System-UDP-Fast-Path-VDI
+# TCP Profile
+TCP_PROFILE: System-TCP-Proxy
+# IP Group
+IP_GROUP: UAG_Servers
+# SSL Profile
+SSL_PROFILE: Horizon-avi-ssl
+# L4 Pool Name
+L4_POOL: L4-pool-horizon
+# L4 App Profile
+L4_APP_PROFILE: System-L4-Application
+# L7 Pool Name
+L7_POOL: L7-pool-horizon
+L7_VS: L7_VS_Horizon
+L4_VS: L4_VS_Horizon

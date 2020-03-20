@@ -6,6 +6,18 @@ ovftool_path: /usr/lib/vmware-ovftool
 ova_path: './software/controller-18.2.8-9098.ova'
 avi_ova_path: './software/perf-server-client.ova'
 
+
+#certs for Horizon
+horizon_path: '/opt/avi/ansi-controller/certs'
+horizon_csr: 'horizon.demoavi.us.csr'
+horizon_key: 'horizon.demoavi.key.pem'
+horizon_fullchain: 'horizon.demoavi.fullchain.pem'
+country: 'US'
+organization: 'Avi'
+email: 'remo@avinetworks.com'
+common_name: 'horizon.demoavi.us'
+
+
 # Datacenter to use
 datacenter: 'Remo'
 
