@@ -10,7 +10,7 @@ Overall Steps:
 * Download Avi's Controller from Avi Portal
 * Run the playbook
  
-== Overall steps:
+== Overall Process:
 . Install 3 Controllers or single one, keep in mind to use the skip tag if you only deploy one controller. +
 . Config Controllers +
   . DNS, NTP, Email, Banner, etc
