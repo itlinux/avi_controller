@@ -148,6 +148,11 @@ or
 ansible-playbook -i inventory/datacenter1/hosts --ask-vault-pass main.yml
 ----
 
+== Multiple Datacenter
+----
+ansible-playbook -i inventory/datacenter1/hosts -i inventory/datacenter2/hosts  --ask-vault-pass main.yml
+----
+
 Once completed you will see something like this:
 
 ----
