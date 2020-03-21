@@ -1,6 +1,8 @@
-# Author Remo Mattei
+
+# Author: Remo Mattei
+# Email: remo@mattei.org
 ---
-- name: Create a VM from a template
+- name: Create a new Web Server deploying "{{ machine_name1 }}"
   hosts: localhost
   connection: local
   gather_facts: true
@@ -24,21 +26,20 @@
       delegate_to: localhost
       tags:
         - avi_pref_test
-    - name: Change network adapter settings of virtual machine
-      vmware_guest_network:
+    - name: Change network adapter settings of the virtual machine
+      vmware_guest:
         hostname: "{{ vcenter.vcenter_url }}"
         username: "{{ vcenter.username }}"
         password: "{{ vcenter.password }}"
         datacenter: "{{ vcenter.datacenter }}"
         validate_certs: false
         name: "{{ machine_name1 }}"
-        gather_network_info: false
         networks:
-          - state: new
-            label: "Network adapter 3"
+          - state: present
+            label: "Network adapter 2"
             connected: true
             name: "{{ mgmt_network }}"
-            adapter_type: E1000
+            #adapter_type: E1000
             start_connected: true
       delegate_to: localhost
       tags:
@@ -55,7 +56,7 @@
         vm_username: root
         vm_password: avi123
         vm_shell: /sbin/ifconfig
-        vm_shell_args: "eth2 {{ item.ip }} && route add default gw {{ item.gw }}"
+        vm_shell_args: "eth0 {{ item.ip }} && route add default gw {{ item.gw }}"
         vm_shell_env:
           - "PATH=/sbin"
         vm_shell_cwd: "/tmp"

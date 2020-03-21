@@ -144,8 +144,9 @@ state_set: present
 enabled: true
 
 #templates for new VM Clone
-machine_name: web02
-machine_name1: web-ubuntu
+machine_name: remo-pref-server-client-v16
+machine_name1: remo-perf-server-client-v16 
+#web-ubuntu
 vm_netdev: 'vmxnet3'
 vm_ip: 10.206.112.90/22
 vm_gw: 10.206.112.1
