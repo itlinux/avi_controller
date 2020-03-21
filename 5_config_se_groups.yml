@@ -16,7 +16,7 @@
               cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
               se_name_prefix: "{{ vcenter.se_prefix }}"
               placement_mode: PLACEMENT_MODE_AUTO
-              ha_mode: HA_MODE_SHARED_PAIR 
+              ha_mode: HA_MODE_SHARED 
               algo: PLACEMENT_ALGO_PACKED
               vcpus_per_se: 6
               cpu_reserve: True
