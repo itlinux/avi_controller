@@ -104,3 +104,23 @@
       delegate_to: localhost
       tags:
         - static_ip
+    - name: Gather VM {{ machine_name1 }} facts
+      vmware_guest_facts:
+        hostname: "{{ vcenter.vcenter_url }}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        datacenter: "{{ datacenter }}"
+        validate_certs: false
+        name: "{{ item }}"
+      register: vm_result
+      with_items: "{{ machine_name1 }}"
+      tags:
+        - get_ip_addr
+    - name: Get DHCP IP address of the VM "{{ machine_name1 }}"
+      debug:
+        msg: "{{ vm_result.results | json_query(s_query) }}"
+      vars:
+        s_query: "[?instance.hw_name == '{{ item }}'].instance.ipv4"
+      with_items: "{{ machine_name1 }}"
+      tags:
+        - get_ip_addr
