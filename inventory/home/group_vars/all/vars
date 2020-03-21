@@ -7,16 +7,18 @@ ova_path: './software/controller-18.2.8-9098.ova'
 avi_ova_path: './software/perf-server-client.ova'
 
 
-#certs for Horizon
-horizon_path: '/opt/avi/ansi-controller/certs'
-horizon_csr: 'horizon.demoavi.us.csr'
-horizon_key: 'horizon.demoavi.key.pem'
-horizon_fullchain: 'horizon.demoavi.fullchain.pem'
+# certs for Horizon
+ssl_profile_name: Horizon-Avi-SSL
+sslkeycert: Horizon-SSL-Cert
+ciphers_enabled: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA"
+cert_path: '/opt/avi/ansi-controller/certs'
+cert_csr: 'horizon.demoavi.us.csr'
+cert_key: 'horizon.demoavi.key.pem'
+cert_fullchain: 'horizon.demoavi.fullchain.pem'
 country: 'US'
 organization: 'Avi'
 email: 'remo@avinetworks.com'
 common_name: 'horizon.demoavi.us'
-
 
 # Datacenter to use
 datacenter: 'Remo'
