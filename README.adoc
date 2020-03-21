@@ -276,3 +276,6 @@ The network for this machine
 ----
 vm_net: 10.206.112.0
 ----
+
+== Custom Self Signed Cert
+The self sign cert playbook will create a new cert with the variables 

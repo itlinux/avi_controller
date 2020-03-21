@@ -1,0 +1,47 @@
+# Author Remo Mattei
+# Email: rm@rm.ht
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate Private key.
+      openssl_privatekey:
+        path: "{{ cert_path }}/{{ cert_key }}"
+    - name: Generate an OpenSSL Certificate Signing Request with Subject information
+      openssl_csr:
+        path: "{{ cert_path }}/{{ cert_csr }}"
+        privatekey_path: "{{ cert_path }}/{{ cert_key }}"
+        country_name: "{{ country }}"
+        organization_name: "{{ organization }}"
+        email_address: "{{ email }}"
+        common_name: "{{ common_name }}"
+      tags:
+        - create_csr
+    - name: Generate a Self Signed OpenSSL certificate.
+      openssl_certificate:
+        path: "{{ cert_path }}/{{ cert_fullchain }}"
+        privatekey_path: "{{ cert_path }}/{{ cert_key }}"
+        csr_path: "{{ cert_path }}/{{ cert_csr }}"
+        provider: selfsigned
+    - name: Configure SE Group
+      no_log: false
+      import_role:
+        name: avinetworks.aviconfig
+      vars:
+        avi_config:
+          sslprofile:
+            - name: "{{ ssl_profile_name }}"
+              tenant: "{{ username }}"
+              accepted_ciphers: "{{ ciphers_enabled }}"
+              accepted_versions:
+                - type: SSL_VERSION_TLS1
+                - type: SSL_VERSION_TLS1_1
+                - type: SSL_VERSION_TLS1_2
+          sslkeyandcertificate:
+            - name: "{{ sslkeycert }}"
+              tenant: "{{ username }}"
+              certificate:
+                self_signed: true
+                certificate: "{{ lookup('file', '/opt/avi/ansi-controller/certs/{{ cert_fullchain }}' )}}"
+              key: "{{ lookup('file', '/opt/avi/ansi-controller/certs/{{ cert_key }}' )}}"
