@@ -7,14 +7,14 @@ CLOUD_NAME: VMware
 # VIP IP for the LB
 IP_VIP: 10.206.112.122
 # Domain Name
-DOMAIN_NAME: horizon.demoavi.us
+DOMAIN_NAME: "{{ common_name }}"
 #UAG Pool
 POOL_SERVER1: 10.206.112.118
-POOL_SERVER2: 
+POOL_SERVER2:
 # Profile to use for the VDI
 APP_PROFILE: System-Secure-HTTP-VDI
 # Cert
-HORIZON_CERT: Horizon_SSL_Cert
+HORIZON_CERT: "{{ sslkeycert }}"
 # HW Monitor
 HORIZON_HM: https-monitor-horizon
 # UDP Profile
@@ -24,7 +24,7 @@ TCP_PROFILE: System-TCP-Proxy
 # IP Group
 IP_GROUP: UAG_Servers
 # SSL Profile
-SSL_PROFILE: Horizon-avi-ssl
+SSL_PROFILE: "{{ Horizon-avi-ssl }}"
 # L4 Pool Name
 L4_POOL: L4-pool-horizon
 # L4 App Profile
