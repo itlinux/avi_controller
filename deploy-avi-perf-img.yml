@@ -39,10 +39,14 @@
         name: "{{ machine_name1 }}"
         networks:
           - state: present
+            label: "Network adapter 1"
+            connected: true
+            name: "{{ mgmt_network }}"
+            start_connected: true
+          - state: present
             label: "Network adapter 2"
             connected: true
             name: "{{ mgmt_network }}"
-            #adapter_type: E1000
             start_connected: true
       delegate_to: localhost
       tags:
