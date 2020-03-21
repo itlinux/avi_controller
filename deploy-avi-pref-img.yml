@@ -2,19 +2,20 @@
 # Author: Remo Mattei
 # Email: remo@mattei.org
 ---
-- name: Create a new Web Server deploying "{{ machine_name1 }}"
+- name: Create a new Web Server deploying using Avi OVA
   hosts: localhost
   connection: local
   gather_facts: true
   tasks:
-    - vmware_deploy_ovf:
+    - name: Deploying web "{{ machine_name1 }}"
+      vmware_deploy_ovf:
         hostname: "{{ vcenter.vcenter_url }}"
         username: "{{ vcenter.username }}"
         password: "{{ vcenter.password }}"
         datacenter: "{{ vcenter.datacenter }}"
         cluster: "{{ cluster }}"
         datastore: "{{ datacenter_datastore }}"
-        name: "{{ machine_name1 }}"
+        name: "{{ item }}"
         networks: {"net": "{{ mgmt_network }}"}
         validate_certs: false
         allow_duplicates: false
@@ -24,6 +25,8 @@
         power_on: true
         ovf: "{{ avi_ova_path }}"
       delegate_to: localhost
+      with_items:
+        - "{{ machine_name1 }}"
       tags:
         - avi_pref_test
     - name: Change network adapter settings of the virtual machine
@@ -44,7 +47,7 @@
       delegate_to: localhost
       tags:
         - machine_ip
-    - name: "Set correct ip"
+    - name: "Set temporary IP address"
       local_action:
         module: vmware_vm_shell
         hostname: "{{ vcenter.vcenter_url }}"
@@ -66,3 +69,34 @@
           gw: "{{ vm_gw }}"
       tags:
         - set_ip_addr
+    - name: "Setting Static IP in interfaces"
+      local_action:
+        module: vmware_vm_shell
+        hostname: "{{ vcenter.vcenter_url }}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        datacenter: "{{ datacenter }}"
+        validate_certs: false
+        vm_id: "{{ machine_name1 }}"
+        vm_username: root
+        vm_password: avi123
+        vm_shell: /bin/
+        vm_shell_args: |
+            echo  >/etc/network/interfaces
+            echo auto lo >>/etc/network/interfaces
+            echo iface lo inet loopback >>/etc/network/interfaces
+            echo auto eth0 >> /etc/network/interfaces
+            echo iface eth0 inet static >> /etc/network/interfaces
+            echo address {{ vm_ip }} >>/etc/network/interfaces
+            echo netmask {{ vm_sub }}>>/etc/network/interfaces
+            echo network {{ vm_net }} >>/etc/network/interfaces
+            echo gateway {{ vm_gw }} >>/etc/network/interfaces
+            echo dns-nameservers {{ dns_server01 }} {{ dns_server02 }}>>/etc/network/interfaces
+            echo auto eth1 >> /etc/network/interfaces
+            echo iface eth1 inet dhcp >> /etc/network/interfaces
+        vm_shell_env:
+          - "PATH=/bin"
+        vm_shell_cwd: "/tmp"
+      delegate_to: localhost
+      tags:
+        - static_ip

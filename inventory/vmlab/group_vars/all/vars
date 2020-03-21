@@ -48,7 +48,7 @@ vcenter_parent_folder: 'Remo'
 number_of_cpus: 8
 
 # RAM for the Avi Controller min 24
-# This option is set to default but if you need to change it the variable is here. 
+# This option is set to default but if you need to change it the variable is here.
 # This also needs to be enabled in the playbook
 memory: 25000
 
@@ -77,7 +77,7 @@ search_domains: remo.local
 # Portal UI Display Banner and MOTD
 banner_txt: "Ciao Ciao!! - Test Msg"
 
-# Welcome message once you login. 
+# Welcome message once you login.
 motd_welcome:
 
 
@@ -91,7 +91,7 @@ ntp_server02: 10.142.7.21
 ntp_server03: 10.132.7.1
 
 
-# vsphere information to setup the cloud connector. 
+# vsphere information to setup the cloud connector.
 vcenter:
   vcenter_url: wdc-06-vc12.oc.vmware.com
   username: 'aviuser6'
@@ -111,13 +111,13 @@ vcenter:
 
 # Avi info used in the script
 avi_credentials:
-  controller: '{{ controllers.0.mgmt_ip }}' 
+  controller: '{{ controllers.0.mgmt_ip }}'
   username: "{{ username }}"
   password: "{{ avi_password }}"
   api_version: "{{ api_version }}"
 
-# Disk size for the controller. If you enable this option in the playbook you may get VMware errors. 
-# Keep that in mind. 
+# Disk size for the controller. If you enable this option in the playbook you may get VMware errors.
+# Keep that in mind.
 con_disk_size: 100
 
 # Controller Cluster VIP
@@ -144,12 +144,12 @@ state_set: present
 enabled: true
 
 #templates for new VM Clone
-machine_name: remo-pref-server-client-v16
-machine_name1: remo-perf-server-client-v16 
-#web-ubuntu
-vm_netdev: 'vmxnet3'
+machine_name: pref-server-client-v16
+machine_name1: remo-perf-server-client-v16
 vm_ip: 10.206.112.90/22
 vm_gw: 10.206.112.1
+vm_net: 10.206.112.0
+vm_sub: 255.255.252.0
 
 controllers:
     - vm_name: remo_ctrl01

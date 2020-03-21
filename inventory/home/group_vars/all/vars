@@ -134,10 +134,16 @@ name_pool: test-pool
 state_set: present
 enabled: true
 
+
+
+ 
+
 #templates for new VM Clone
 vm_templates: CentOS7-16GB
 vm_ip: 192.168.101.11/23
 vm_gw: 192.168.100.254
+vm_net: 192.168.100.0
+vm_sub: 255.255.254.0
 machine_name: web02
 machine_name1: remo-web-ubuntu
 
