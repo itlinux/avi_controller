@@ -247,7 +247,7 @@ The machine ova default should be perf-server-client.ova same as what you downlo
 The second nic of the Web is DHCP, if it gets an ip address it will be printed to the end of the playbook. +
 
 ----
-https://drive.google.com/open?id=1DV0idr4n4MAk_zz-7-m4MWKcxSP62SGh
+https://tiny.cc/avi_ubuntu
 ----
 
 The value to update for the web server backend pool are:
