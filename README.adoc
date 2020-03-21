@@ -241,10 +241,10 @@ I set the VS_IP2 as the VS VIP for now VS_IP is if you want a new VS.
 == Deploy a Web Server
 This process is the same as the controller, just diff image. The variables are in the vars file.
 
-Here is the link until the Avi Portal gets update. Once it's up with the version I built, I will remove it from here.+
-This machine is now using ubuntu 16, and it has VMware tools installed.+
-The machine ova default should be perf-server-client.ova same as what you download from the Avi Portal.+
-The second nic of the Web is DHCP, if it gets an ip address it will be printed to the end of the playbook.+
+Here is the link until the Avi Portal gets update. Once it's up with the version I built, I will remove it from here. +
+This machine is now using ubuntu 16, and it has VMware tools installed. +
+The machine ova default should be perf-server-client.ova same as what you download from the Avi Portal. +
+The second nic of the Web is DHCP, if it gets an ip address it will be printed to the end of the playbook. +
 
 ----
 https://drive.google.com/open?id=1DV0idr4n4MAk_zz-7-m4MWKcxSP62SGh
