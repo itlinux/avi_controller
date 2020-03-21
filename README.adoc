@@ -237,7 +237,36 @@ I set the VS_IP2 as the VS VIP for now VS_IP is if you want a new VS.
 This process is the same as the controller, just diff image. The variables are in the vars file.
 
 Here is the link until the Avi Portal gets update. Once it's up with the version I built, I will remove it from here.
+This machine is now using ubuntu 16, and it has VMware tools installed.
+The machine ova default should be perf-server-client.ova same as what you download from the Avi Portal
 
 ----
 https://drive.google.com/open?id=1DV0idr4n4MAk_zz-7-m4MWKcxSP62SGh
+----
+
+The value to update for the web server backend pool are:
+
+Then name you want for your VM in VMware env.
+----
+* machine_name1
+----
+
+The IP you want to use
+----
+vm_ip: 10.206.112.90/22
+----
+
+The gateway for this machine
+----
+vm_gw: 10.206.112.1
+----
+
+The subnet for this machine
+----
+vm_sub: 255.255.252.0
+----
+
+The network for this machine
+----
+vm_net: 10.206.112.0
 ----
