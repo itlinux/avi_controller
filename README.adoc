@@ -1,6 +1,6 @@
 = For deployment of the Avi Controller using Avi's SDK
 
-Overall Steps:
+Overall Deployment:
 
 * Install docker with yum install
 * Download the SDK from Avi's Docker Hub
@@ -10,7 +10,7 @@ Overall Steps:
 * Download Avi's Controller from Avi Portal
 * Run the playbook
  
-== Overall Process:
+== Start to Finish Process and Optional configuration:
 . Install 3 Controllers or single one, keep in mind to use the skip tag if you only deploy one controller. +
 . Config Controllers +
   . DNS, NTP, Email, Banner, etc
