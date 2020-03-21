@@ -278,4 +278,18 @@ vm_net: 10.206.112.0
 ----
 
 == Custom Self Signed Cert
-The self sign cert playbook will create a new cert with the variables 
+The self sign cert playbook will create a new cert with the variables:
+
+----
+ssl_profile_name: Horizon-Avi-SSL
+sslkeycert: Horizon-SSL-Cert
+ciphers_enabled: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA"
+cert_path: '/opt/avi/ansi-controller/certs'
+cert_csr: 'horizon.demoavi.us.csr'
+cert_key: 'horizon.demoavi.key.pem'
+cert_fullchain: 'horizon.demoavi.fullchain.pem'
+country: 'US'
+organization: 'Avi'
+email: 'remo@avinetworks.com'
+common_name: 'horizon.demoavi.us'
+----
