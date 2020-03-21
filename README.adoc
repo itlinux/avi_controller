@@ -10,6 +10,20 @@ Overall Steps:
 * Download Avi's Controller from Avi Portal
 * Run the playbook
  
+== Overall steps:
+. Install 3 Controllers or single one, keep in mind to use the skip tag if you only deploy one controller. +
+. Config Controllers +
+  . DNS, NTP, Email, Banner, etc
+. Create the VMware Cloud. +
+. Config VMware Cloud with IPs and subnet and Pool of IPs for SEs. +
+. Config SEG and sets the backup passphrase. +
+. If you do not have a backend to use like an Apache Server etc, use the deploy-avi-perf-img playbook. +
+  This deploys a web server that you can use. +
+. If you use 3 Controllers then you will want to use the cluster_create playbook to set a VIP. +
+. Create the new VS and connect the backend pool. +
+. Optional if create a new SSL Cert
+. Optional configure Horizon VDI
+
 == Installing docker
 ----
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
