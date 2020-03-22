@@ -86,18 +86,26 @@
         vm_password: avi123
         vm_shell: /bin/
         vm_shell_args: |
-            echo  >/etc/network/interfaces
-            echo auto lo >>/etc/network/interfaces
-            echo iface lo inet loopback >>/etc/network/interfaces
-            echo auto eth0 >> /etc/network/interfaces
-            echo iface eth0 inet static >> /etc/network/interfaces
-            echo address {{ vm_ip }} >>/etc/network/interfaces
-            echo netmask {{ vm_sub }}>>/etc/network/interfaces
-            echo network {{ vm_net }} >>/etc/network/interfaces
-            echo gateway {{ vm_gw }} >>/etc/network/interfaces
-            echo dns-nameservers {{ dns_server01 }} {{ dns_server02 }}>>/etc/network/interfaces
-            echo auto eth1 >> /etc/network/interfaces
-            echo iface eth1 inet dhcp >> /etc/network/interfaces
+            print >/etc/network/interfaces
+            cat > /etc/network/interfaces << "EOF"
+            # This file describes the network interfaces available on your system
+            # and how to activate them. For more information, see interfaces(5).
+
+            # The loopback network interface
+            auto lo
+            iface lo inet loopback
+
+            # The primary network interface
+            auto eth0
+            iface eth0 inet static
+            address {{ vm_ip }}
+            netmask {{ vm_sub }}
+            network {{ vm_net }}
+            gateway {{ vm_gw }}
+            dns-nameservers {{ dns_server01 }} {{ dns_server02 }}
+            auto eth1
+            iface eth1 inet dhcp
+            EOF
         vm_shell_env:
           - "PATH=/bin"
         vm_shell_cwd: "/tmp"
