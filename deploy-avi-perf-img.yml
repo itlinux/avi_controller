@@ -1,4 +1,3 @@
-
 # Author: Remo Mattei
 # Email: remo@mattei.org
 ---
@@ -90,6 +89,7 @@
             cat > /etc/network/interfaces << "EOF"
             # This file describes the network interfaces available on your system
             # and how to activate them. For more information, see interfaces(5).
+            # this file is been rewritten by the ansible playbook by Remo Mattei
 
             # The loopback network interface
             auto lo
