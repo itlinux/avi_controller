@@ -6,7 +6,7 @@
   connection: local
   gather_facts: true
   tasks:
-    - name: Deploying web "{{ machine_name1 }}"
+    - name: Deploying a web server VM named: "{{ machine_name1 }}"
       vmware_deploy_ovf:
         hostname: "{{ vcenter.vcenter_url }}"
         username: "{{ vcenter.username }}"
@@ -106,6 +106,7 @@
             auto eth1
             iface eth1 inet dhcp
             EOF
+            systemctl restart networking
         vm_shell_env:
           - "PATH=/bin"
         vm_shell_cwd: "/tmp"
