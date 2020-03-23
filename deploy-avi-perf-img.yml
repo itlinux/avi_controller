@@ -6,7 +6,7 @@
   connection: local
   gather_facts: true
   tasks:
-    - name: Deploying a web server VM named: "{{ machine_name1 }}"
+    - name: "Deploying a web server VM named: {{ machine_name1 }}"
       vmware_deploy_ovf:
         hostname: "{{ vcenter.vcenter_url }}"
         username: "{{ vcenter.username }}"
