@@ -43,5 +43,5 @@
               tenant: "{{ username }}"
               certificate:
                 self_signed: true
-                certificate: "{{ lookup('file', '/opt/avi/ansi-controller/certs/{{ cert_fullchain }}' )}}"
-              key: "{{ lookup('file', '/opt/avi/ansi-controller/certs/{{ cert_key }}' )}}"
+                certificate: "{{ lookup('file', '{{ cert_path }}/{{ cert_fullchain }}' )}}"
+              key: "{{ lookup('file', '{{ cert_path }}/{{ cert_key }}' )}}"
