@@ -6,7 +6,7 @@
   connection: local
   tasks:
     - name: Configure SE Group
-      no_log: True
+      no_log: false
       import_role:
         name: avinetworks.aviconfig
       vars:
@@ -16,20 +16,20 @@
               cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
               se_name_prefix: "{{ vcenter.se_prefix }}"
               placement_mode: PLACEMENT_MODE_AUTO
-              ha_mode: HA_MODE_SHARED 
+              ha_mode: HA_MODE_SHARED
               algo: PLACEMENT_ALGO_PACKED
-              vcpus_per_se: 6
+              vcpus_per_se: "{{ vcpu_number }}"
               cpu_reserve: True
-              memory_per_se: 12288
+              memory_per_se: "{{ memory_per_se }}"
               mem_reserve: True
-              disk_per_se: 64
-              min_se: 4
-              max_se: 6
-              buffer_se: 2
-              min_scaleout_per_vs: 4
-              max_scaleout_per_vs: 6
-              dedicated_dispatcher_core: True
-              se_deprovision_delay: 0
+              disk_per_se: "{{ disk_size_se }}"
+              min_se: "{{ min_se_number }}"
+              max_se: "{{ max_se_number }}"
+              buffer_se: "{{ buffer_for_se }}"
+              min_scaleout_per_vs: "{{ min_scaleout_per_se }}"
+              max_scaleout_per_vs: "{{ max_scaleout_per_se }}"
+              dedicated_dispatcher_core: False
+              se_deprovision_delay: "{{ se_deletion }}"
               license_type: LIC_CORES
               vcenter_clusters:
                 include: True
@@ -48,19 +48,19 @@
               algo: PLACEMENT_ALGO_PACKED
               realtime_se_metrics:
                 enabled: True
-                duration: 10
-              vcpus_per_se: 6
+                duration: 0
+              vcpus_per_se: "{{ aa_vcpu_number }}"
               cpu_reserve: True
-              memory_per_se: 12288
+              memory_per_se: "{{ aa_memory_per_se }}"
               mem_reserve: True
-              disk_per_se: 64
-              min_se: 4
-              max_se: 6
-              buffer_se: 2
-              min_scaleout_per_vs: 4
-              max_scaleout_per_vs: 6
+              disk_per_se: "{{ aa_disk_size_se }}"
+              min_se: "{{ aa_min_se_number }}"
+              max_se: "{{ aa_max_se_number }}"
+              buffer_se: "{{ aa_buffer_for_se }}"
+              min_scaleout_per_vs: "{{ aa_min_scaleout_per_se }}"
+              max_scaleout_per_vs: "{{ aa_max_scaleout_per_se }}"
               dedicated_dispatcher_core: True
-              se_deprovision_delay: 5
+              se_deprovision_delay: "{{ aa_se_deletion }}"
               license_type: LIC_CORES
               vcenter_folder: "{{ vcenter_folder }}"
           backupconfiguration:
