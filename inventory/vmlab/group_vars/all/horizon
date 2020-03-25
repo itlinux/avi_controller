@@ -1,5 +1,7 @@
 # Placement in case we have discover mulitple networks
 IPADDR_PLACEMENT: 10.206.112.0/22
+
+SUBNET_MASK: 24
 # Network Managment
 MGMT_NET: "{{ mgmt_network }}"
 # Clound Name
