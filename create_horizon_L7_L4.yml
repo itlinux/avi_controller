@@ -1,5 +1,7 @@
+# Author Remo Mattei
+# Email: rm@rm.ht
 # This playbook configures all objects required for Horizon deployment in a L7+L4 VS with shared VIP.
-# Playbook configures HealthMonitor, IP group, pools and Virtual Services.
+# Playbook configures HealthMonitor, pools and Virtual Services.
 # The Application profile and UDP profile are only available from 18.2.7
 ---
 - hosts: localhost
