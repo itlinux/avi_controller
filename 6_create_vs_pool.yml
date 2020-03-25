@@ -33,12 +33,12 @@
                 - port: 443
                   enable_ssl: True
                 - port: 80
-              ssl_profile_ref: '/api/sslprofile?name=System-Standard'
-              application_profile_ref: '/api/applicationprofile?name=System-Secure-HTTP'
+              ssl_profile_ref: "/api/sslprofile?name={{ default_ssl_profile }}"
+              application_profile_ref: "/api/applicationprofile?name={{ default_app_profile }}"
               waf_policy_ref: "/api/wafpolicy?name=System-WAF-Policy"
               ssl_key_and_certificate_refs:
-                - "/api/sslkeyandcertificate?name=System-Default-Cert"
-                - "/api/sslkeyandcertificate?name=System-Default-Cert-EC"
+                - "/api/sslkeyandcertificate?name={{ default_avi_cert }}"
+                - "/api/sslkeyandcertificate?name={{ default_avi_cert_ec }}"
               pool_ref: '/api/pool?name={{ name_pool }}'
               cloud_ref: '/api/cloud?name={{ vcenter.AviCloudName }}'
               vsvip_ref: '/api/vsvip?name={{ app_name }}_vsvip'
