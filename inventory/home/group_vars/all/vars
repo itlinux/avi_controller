@@ -52,7 +52,7 @@ vcenter_parent_folder: 'Remo'
 number_of_cpus: 8
 
 # RAM for the Avi Controller min 24
-# This option is set to default but if you need to change it the variable is here. 
+# This option is set to default but if you need to change it the variable is here.
 # This also needs to be enabled in the playbook
 memory: 25000
 
@@ -81,7 +81,7 @@ search_domains: remo.local
 # Portal UI Display Banner and MOTD
 banner_txt: "Ciao Ciao!! - Test Msg"
 
-# Welcome message once you login. 
+# Welcome message once you login.
 motd_welcome:
 
 
@@ -96,7 +96,7 @@ ntp_server03: 10.132.7.1
 
 
 
-# vsphere information to setup the cloud connector. 
+# vsphere information to setup the cloud connector.
 vcenter:
   vcenter_url: 192.168.100.15
   username: 'administrator@remo.local'
@@ -121,9 +121,31 @@ avi_credentials:
   password: "{{ avi_password }}"
   api_version: "{{ api_version }}"
 
-# Disk size for the controller. If you enable this option in the playbook you may get VMware errors. 
-# Keep that in mind. 
+# Disk size for the controller. If you enable this option in the playbook you may get VMware errors.
+# Keep that in mind.
 con_disk_size: 100
+
+# SEGROUP Config N+M
+vcpu_number: "1"
+memory_per_se: "2048"
+disk_size_se: "12"
+min_se_number: "1"
+max_se_number: "4"
+buffer_for_se: "0"
+min_scaleout_per_se: "1"
+max_scaleout_per_se: "2"
+se_deletion: "2"
+
+# SEGROUP Config AA
+aa_vcpu_number: "2"
+aa_memory_per_se: "2048"
+aa_disk_size_se: "12"
+aa_min_se_number: "2"
+aa_max_se_number: "4"
+aa_buffer_for_se: "0"
+aa_min_scaleout_per_se: "2"
+aa_max_scaleout_per_se: "4"
+aa_se_deletion: "2"
 
 # POOL INFO
 cluster_VIP: 192.168.101.114
@@ -135,8 +157,6 @@ app_name: test_me
 name_pool: test-pool
 state_set: present
 enabled: true
-
-
 
  
 

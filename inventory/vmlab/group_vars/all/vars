@@ -44,8 +44,6 @@ power_on: true
 
 # Folder where to push the Avi Controller
 vcenter_folder: 'Remo/Controllers'
-# we do not honor the parent_folder yet!
-vcenter_parent_folder: 'Remo'
 
 # Number of CPU Min 8
 number_of_cpus: 8
@@ -147,17 +145,8 @@ aa_se_deletion: "2"
 
 
 # Controller Cluster VIP
-#templates for new VM Clone
-vm_templates: CentOS7-16GB
-vm_ip: 192.168.101.11
-vm_subnet: 255.255.252.0
-vm_gateway: 192.168.100.254
-vm_disk_size: 31
-vm_netdev: "vmxnet3"
 cluster_IP: 10.206.112.96
 cluster_name: remo_cluster
-
-
 
 # POOL INFO
 POOL_IP: 10.206.114.88
