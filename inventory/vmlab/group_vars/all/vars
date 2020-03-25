@@ -8,12 +8,12 @@ ova_path: './software/controller-18.2.8-9098.ova'
 avi_ova_path: './software/perf-server-client.ova'
 
 # certs for Horizon
-default_ssl_profile: System-Standard
-default_app_profile: System-Secure-HTTP
-default_avi_cert:System-Default-Cert
-default_avi_cert_ec: System-Default-Cert-EC
-ssl_profile_name: Horizon-Avi-SSL
-sslkeycert: Horizon-SSL-Cert
+default_ssl_profile: 'System-Standard'
+default_app_profile: 'System-Secure-HTTP'
+default_avi_cert: 'System-Default-Cert'
+default_avi_cert_ec: 'System-Default-Cert-EC'
+ssl_profile_name: 'Horizon-Avi-SSL'
+sslkeycert: 'Horizon-SSL-Cert'
 cert_path: '/opt/avi/ansi-controller/certs'
 cert_csr: 'horizon.demoavi.us.csr'
 cert_key: 'horizon.demoavi.key.pem'
