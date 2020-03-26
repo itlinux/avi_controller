@@ -72,7 +72,7 @@
           gw: "{{ vm_gw }}"
       tags:
         - set_ip_addr
-    - name: "Setting Static IP in interfaces"
+    - name: "Set Permanent Static IP in interfaces"
       local_action:
         module: vmware_vm_shell
         hostname: "{{ vcenter.vcenter_url }}"
