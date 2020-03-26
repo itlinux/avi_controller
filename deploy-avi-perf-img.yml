@@ -50,7 +50,7 @@
       delegate_to: localhost
       tags:
         - machine_ip
-    - name: "Set temporary IP address"
+    - name: "Set Static IP address"
       local_action:
         module: vmware_vm_shell
         hostname: "{{ vcenter.vcenter_url }}"
