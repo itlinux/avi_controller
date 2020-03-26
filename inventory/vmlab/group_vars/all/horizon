@@ -35,3 +35,5 @@ L4_APP_PROFILE: System-L4-Application
 L7_POOL: L7-pool-horizon
 L7_VS: L7_VS_Horizon
 L4_VS: L4_VS_Horizon
+# Size of the SE which are defined in the vars
+HORIZON_SE: "{{ vcenter.AviCloudName }}"

@@ -1,0 +1,21 @@
+IPADDR_PLACEMENT: 192.168.100.0
+SUBNET_MASK: 23
+MGMT_NET: "{{ mgmt_network }}"
+CLOUD_NAME: "{{ vcenter.AviCloudName }}"
+IP_VIP: 192.168.101.11
+DOMAIN_NAME: "{{ common_name }}"
+POOL_SERVER1: 192.168.101.12
+POOL_SERVER2: 10.10.24.108
+APP_PROFILE: System-Secure-HTTP-VDI
+HORIZON_CERT: "{{ sslkeycert }}"
+HORIZON_HM: https-monitor-horizon
+UDP_PROFILE: System-UDP-Fast-Path-VDI
+TCP_PROFILE: System-TCP-Proxy
+IP_GROUP: UAG_Servers
+SSL_PROFILE: System-Standard
+L4_POOL: L4-pool-horizon
+L4_APP_PROFILE: System-L4-Application
+L7_POOL: L7-pool-horizon
+L7_VS: L7_VS_Horizon
+L4_VS: L4_VS_Horizon
+

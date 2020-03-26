@@ -86,6 +86,7 @@
      application_profile_ref: "/api/applicationprofile?name={{ APP_PROFILE }}"
      network_profile_ref: "/api/networkprofile?name={{ TCP_PROFILE }}"
      cloud_ref: "/api/cloud?name={{ CLOUD_NAME }}"
+     se_group_ref: "/api/serviceenginegroup/?name={{ HORIZON_SE }}"
      vip:
       - ip_address:
          addr: "{{ IP_VIP }}"
@@ -121,6 +122,7 @@
     avi_virtualservice:
      avi_credentials: "{{ avi_credentials }}"
      name: "{{ L4_VS }}"
+     se_group_ref: "/api/serviceenginegroup/?name={{ HORIZON_SE }}"
      services:
       - port: 8443
       - port: 8443
