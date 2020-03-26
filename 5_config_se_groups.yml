@@ -12,6 +12,10 @@
       vars:
         avi_config:
           serviceenginegroup:
+            - name: "Default-Group"
+              cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
+              se_name_prefix: "{{ vcenter.se_prefix }}"
+              vcenter_folder: "{{ vcenter_folder }}"
             - name: "{{ vcenter.AviCloudName }}"
               cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
               se_name_prefix: "{{ vcenter.se_prefix }}"
