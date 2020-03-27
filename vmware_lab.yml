@@ -1,0 +1,73 @@
+# Author Remo Mattei
+# Email: rm@rm.ht
+---
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Configure SE Group
+      no_log: false
+      import_role:
+        name: avinetworks.aviconfig
+      vars:
+        avi_config:
+          serviceenginegroup:
+            - name: "Default-Group"
+              cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
+              se_name_prefix: "{{ vcenter.se_prefix }}"
+              vcenter_folder: "{{ vcenter_folder }}"
+            - name: "{{ vcenter.AviCloudName }}"
+              cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
+              se_name_prefix: "{{ vcenter.se_prefix }}"
+              placement_mode: PLACEMENT_MODE_AUTO
+              ha_mode: HA_MODE_SHARED
+              algo: PLACEMENT_ALGO_PACKED
+              vcpus_per_se: "{{ vcpu_number }}"
+              cpu_reserve: False
+              memory_per_se: "{{ memory_per_se }}"
+              mem_reserve: False
+              disk_per_se: "{{ disk_size_se }}"
+              min_se: "{{ min_se_number }}"
+              max_se: "{{ max_se_number }}"
+              buffer_se: "{{ buffer_for_se }}"
+              min_scaleout_per_vs: "{{ min_scaleout_per_se }}"
+              max_scaleout_per_vs: "{{ max_scaleout_per_se }}"
+              dedicated_dispatcher_core: False
+              se_deprovision_delay: "{{ se_deletion }}"
+              license_type: LIC_CORES
+              vcenter_clusters:
+                include: True
+                cluster_refs:
+                  - "{{ '/api/vimgrhostruntime/?name=' + cluster }}"
+              vcenter_datastores_include: True
+              vcenter_datastore_mode: VCENTER_DATASTORE_SHARED
+              vcenter_datastores:
+                  - datastore_name: "{{ datacenter_datastore }}"
+              vcenter_folder: "{{ vcenter_folder }}"
+            - name: "{{ vcenter.AviCloudName }}-AA"
+              cloud_ref: "{{'/api/cloud?name='+ vcenter.AviCloudName }}"
+              se_name_prefix: "{{ vcenter.se_prefix }}"
+              placement_mode: PLACEMENT_MODE_AUTO
+              ha_mode: HA_MODE_SHARED_PAIR
+              algo: PLACEMENT_ALGO_PACKED
+              realtime_se_metrics:
+                enabled: True
+                duration: 0
+              vcpus_per_se: "{{ aa_vcpu_number }}"
+              cpu_reserve: False
+              memory_per_se: "{{ aa_memory_per_se }}"
+              mem_reserve: False
+              disk_per_se: "{{ aa_disk_size_se }}"
+              min_se: "{{ aa_min_se_number }}"
+              max_se: "{{ aa_max_se_number }}"
+              buffer_se: "{{ aa_buffer_for_se }}"
+              min_scaleout_per_vs: "{{ aa_min_scaleout_per_se }}"
+              max_scaleout_per_vs: "{{ aa_max_scaleout_per_se }}"
+              dedicated_dispatcher_core: True
+              se_deprovision_delay: "{{ aa_se_deletion }}"
+              license_type: LIC_CORES
+              vcenter_folder: "{{ vcenter_folder }}"
+          backupconfiguration:
+            - name: Backup-Configuration
+              backup_passphrase: '{{ backup_passphrase }}'
+              save_local: True
