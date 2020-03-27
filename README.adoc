@@ -53,36 +53,9 @@ chmod +x run.sh
 docker exec -it avitools bash
 ----
 
-Check status
-----
-[root@localhost ~]# sestatus
-SELinux status:                 enabled
-SELinuxfs mount:                /sys/fs/selinux
-SELinux root directory:         /etc/selinux
-Loaded policy name:             targeted
-Current mode:                   enforcing
-Mode from config file:          enforcing
-Policy MLS status:              enabled
-Policy deny_unknown status:     allowed
-Max kernel policy version:      31
-[root@localhost ~]#
-----
-If you have it in enforcing mode set it to permissive
+== FOR SE LAB
+If you are using this playbook in the SE lab please use vmware_lab.yml instead of 5_config_se_groups.yml. It turns off CPU and Memory reservation that's the only diff.
 
-----
-[root@localhost ~]# setenforce 0
-[root@localhost ~]# sestatus
-SELinux status:                 enabled
-SELinuxfs mount:                /sys/fs/selinux
-SELinux root directory:         /etc/selinux
-Loaded policy name:             targeted
-Current mode:                   permissive
-Mode from config file:          enforcing
-Policy MLS status:              enabled
-Policy deny_unknown status:     allowed
-Max kernel policy version:      31
-[root@localhost ~]#
-----
 
 == Git down the playbook
 Once installed and have the sdk container from Avi running you will need to pull down this repo.
