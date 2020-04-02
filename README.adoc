@@ -281,5 +281,24 @@ email: 'remo@avinetworks.com'
 common_name: 'horizon.demoavi.us'
 ----
 
+== Checking SSL Certs
+
+** Check a Certificate Signing Request (CSR)
+----
+openssl req -text -noout -verify -in yourcertname.csr
+----
+
+** Check a private key
+----
+openssl rsa -check -in yourprivatekey.key.pem
+----
+
+** Check a cert
+----
+openssl x509 -noout -text -in yourcert.fullchain.pem 
+----
+
 = CREDITS
 I want to thank Sergey Marunich from the PS Team and Nick Robbins from PM for adding code snippets for this project.
+
+
