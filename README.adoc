@@ -24,6 +24,11 @@ Overall Deployment:
 . Optional if create a new SSL Cert
 . Optional configure Horizon VDI
 
+== Video talking about the playbook
+----
+https://tiny.cc/avicontroller
+----
+
 == Installing docker
 ----
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -298,7 +303,7 @@ openssl rsa -check -in yourprivatekey.key.pem
 openssl x509 -noout -text -in yourcert.fullchain.pem 
 ----
 
-= CREDITS
+== CREDITS
 I want to thank Sergey Marunich from the PS Team and Nick Robbins from PM for adding code snippets for this project.
 
 
