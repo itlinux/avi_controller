@@ -26,7 +26,7 @@ Overall Deployment:
 
 == Video talking about the playbook
 ----
-https://tiny.cc/avicontroller
+https://itlinux.rocks/avictl
 ----
 
 == Installing docker
