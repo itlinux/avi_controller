@@ -3,10 +3,8 @@
 ---
 - hosts: localhost
   connection: local
-  roles:
-    - role: avinetworks.avicontroller_vmware
-    - role: avinetworks.avisdk
-    - role: avinetworks.aviconfig
+  collections:
+    - vmware.alb
   gather_facts: False
   tasks:
     - name: Wait for Controller be ready
@@ -19,6 +17,8 @@
       until: statusCode_output.status == 200
       retries: 120
       delay: 60
+      tags:
+        - first_ctl
     - name: Wait for controller 2 be ready
       uri:
         validate_certs: False

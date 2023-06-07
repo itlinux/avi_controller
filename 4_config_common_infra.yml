@@ -4,12 +4,14 @@
 - hosts: localhost
   gather_facts: no
   connection: local
+  collections:
+    - vmware.alb
 
   tasks:
     - name: Configure Networks, VRFs
       no_log: True
       import_role:
-        name: avinetworks.aviconfig
+        name: aviconfig
       vars:
         avi_config:
             network:

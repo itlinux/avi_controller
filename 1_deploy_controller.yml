@@ -4,45 +4,32 @@
 - hosts: localhost
   gather_facts: no
   connection: local
-  roles:
-  - avinetworks.avicontroller_vmware
-
   vars:
-    avi_credentials:
       api_version: "{{ api_version }}"
       username: "{{ username }}"
       password: "{{ password }}"
       controller: "{{ controllers.0.mgmt_ip }}"
-
   tasks:
     - name: Deploy Avi Controllers
-      deploy_controller:
-        state: "{{ state | default('present') }}"
-        ovftool_path:  "{{ ovftool_path }}"
-        vcenter_host: "{{ vcenter.vcenter_url }}"
-        vcenter_user: "{{ vcenter.username }}"
-        vcenter_password: "{{ vcenter.password }}"
-        con_datacenter: "{{ vcenter.datacenter }}"
-        con_cluster: "{{ cluster }}"
-        con_ova_path: "{{ ova_path }}"
-        con_vcenter_folder: "{{ vcenter_folder }}"
-        con_mgmt_network: "{{ mgmt_network }}"
-        con_vm_name: "{{ item.vm_name }}"
-        con_power_on: "{{ item.power_on }}"
-        con_mgmt_ip: "{{ item.mgmt_ip }}"
-        con_mgmt_mask: "{{ item.mgmt_mask }}"
-        con_default_gw: "{{ item.default_gw }}"
-        con_number_of_cpus: "{{ number_of_cpus }}"
-        #con_memory: "{{ memory }}"
-        #con_memory_reserved: "{{ memory }}"
-        #con_disk_size: '{{ con_disk_size | default(omit) }}'
-        #con_disk_mode: '{{ con_disk_mode | default(omit) }}'
-        #con_datastore: '{{ item.con_vcenter_datastore | default(omit) }}'
+      community.vmware.vmware_deploy_ovf:
+        hostname: "{{vcenter.vcenter_url}}"
+        username: "{{ vcenter.username }}"
+        password: "{{ vcenter.password }}"
+        datacenter: "{{ vcenter.datacenter }}"
+        cluster: "{{ cluster }}"
+        datastore: "{{ datacenter_datastore }}"
+        validate_certs: false
+        name: "{{ item.vm_name }}"
+        networks: '{u"Management":u"{{ mgmt_network }}"}'
+        ovf: '{{ ova_path }}'
+        folder: '{{ vcenter.datacenter + "/vm/" + vcenter_folder }}'
+        properties: '{ u"avi.mgmt-ip.CONTROLLER":u"{{ item.mgmt_ip }}", u"avi.mgmt-mask.CONTROLLER":u"{{ item.mgmt_mask }}", u"avi.default-gw.CONTROLLER":u"{{ item.default_gw }}"}'
+        power_on: true
+        allow_duplicates: false
       loop: "{{ controllers }}"
       register: _ctl_0
       async: 6000
       poll: 0
-
     - name: Wait for My long running task to finish
       async_status:
         jid: "{{ item.ansible_job_id }}"

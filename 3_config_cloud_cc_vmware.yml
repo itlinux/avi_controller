@@ -3,44 +3,74 @@
 ---
 - hosts: localhost
   gather_facts: no
+  collections:
+    - vmware.alb
   connection: local
+  vars:
+    usable_networks: []
+    create_dns_provider: "{{ (dns_config.service_domains|default([]))|length>0 }}"
 
   tasks:
-    - name: Define Cloud Connector configuration
-      set_fact:
-        no_log: True
-        avi_config_cloud:
-          avi_cloud_discovery_wait: "{{ vcenter.cloud_discovery_time }}"
-          cloud:
-            - vtype: CLOUD_VCENTER
-              license_tier: ENTERPRISE_18
-              name: "{{ vcenter.AviCloudName }}"
-              vcenter_configuration:
-                username: "{{ vcenter.username }}"
-                datacenter: "{{ vcenter.datacenter }}"
-                management_network: "/api/vimgrnwruntime/?name={{ vcenter.network_mgmt }}"
-                management_ip_subnet:
-                  mask: "{{ vcenter.network_subnet_mask }}"
-                  ip_addr:
-                    type: V4
-                    addr: "{{ vcenter.network_subnet }}"
-                privilege: WRITE_ACCESS
-                vcenter_url: "{{ vcenter.vcenter_url }}"
-                password: "{{ vcenter.password }}"
-              enable_vip_static_routes: True
-              prefer_static_routes: True
-              license_type: LIC_CORES
+    - name: "Create Avi IPAM Provider"
+      vmware.alb.avi_ipamdnsproviderprofile:
+        avi_credentials: "{{ avi_credentials | default(omit) }}"
+        api_context: "{{ avi_api_context | default(omit) }}"
+        name: "IPAM_Avi"
+        type: "IPAMDNS_TYPE_INTERNAL"
+        allocate_ip_in_vrf: false
+      register: ipamprovider
 
-    - name: Discover Cloud Subnets
-      no_log: True
-      import_role:
-        name: avinetworks.aviconfig
-      vars:
-        avi_config: "{{ avi_config_cloud }}"
+    - name: "Create Avi DNS Provider"
+      vmware.alb.avi_ipamdnsproviderprofile:
+        avi_credentials: "{{ avi_credentials | default(omit) }}"
+        api_context: "{{ avi_api_context | default(omit) }}"
+        name: "DNS_Avi"
+        type: IPAMDNS_TYPE_INTERNAL_DNS
+        internal_profile:
+          dns_service_domain: "remo.local"
+      when: create_dns_provider
 
-    - name: Setup Cloud Connector
-      no_log: True
-      import_role:
-        name: avinetworks.aviconfig
-      vars:
-        avi_config: "{{ avi_config_cloud }}"
+    - name: "Configure vSphere Cloud"
+      vmware.alb.avi_cloud:
+        avi_credentials: "{{ avi_credentials | default(omit) }}"
+        api_context: "{{ avi_api_context | default(omit) }}"
+        name: "{{ vcenter.AviCloudName }}"
+        vcenter_configuration:
+          datacenter: "{{ vcenter.datacenter }}"
+          privilege: "WRITE_ACCESS"
+          username: "{{ vcenter.username }}"
+          password: "{{ vcenter.password }}"
+          vcenter_url: "{{ vcenter.vcenter_url }}"
+          use_content_lib: "{{ cloud_config.use_content_lib | default(False) }}"
+          content_lib: "{{ cloud_config.content_lib | default(omit) }}"
+        vtype: "CLOUD_VCENTER"
+        ipam_provider_ref: "{{ ipamprovider.obj.url }}"
+        dns_provider_ref: '{{ "/api/ipamdnsproviderprofile/?name=VMware-DNS-" + cloud_parameters.name if create_dns_provider else None }}'
+      register: cloud
+
+    - name: "Wait for network sync for cloud to complete..."
+      vmware.alb.avi_api_session:
+        avi_credentials: "{{ avi_credentials | default(omit) }}"
+        api_context: "{{ avi_api_context | default(omit) }}"
+        http_method: "get"
+        path: "cloudruntime"
+        params:
+          name: "{{ vcenter.AviCloudName }}"
+      register: cloudruntime
+      until: cloudruntime.obj.results[0].network_sync_complete
+      retries: 30
+      delay: 5
+
+    - name: "Configure cloud management network"
+      vmware.alb.avi_cloud:
+        avi_credentials: "{{ avi_credentials | default(omit) }}"
+        api_context: "{{ avi_api_context | default(omit) }}"
+        avi_api_update_method: "patch"
+        avi_api_patch_op: "replace"
+        name: "{{ vcenter.AviCloudName }}"
+        vcenter_configuration:
+          management_ip_subnet: "{{ management_ip_subnet }}"
+          management_network: '{{ "/api/vimgrnwruntime/?name=" + mgmt_network }}'
+        vtype: "CLOUD_VCENTER"
+      tags:
+        - net

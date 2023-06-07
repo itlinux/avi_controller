@@ -4,10 +4,12 @@
 - hosts: localhost
   gather_facts: no
   connection: local
+  collections:
+    - vmware.alb
   tasks:
     - name: Avi Application | Setup App1
       include_role:
-        name: avinetworks.aviconfig
+        name: aviconfig
       vars:
         avi_config:
           pool:
